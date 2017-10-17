@@ -1,0 +1,56 @@
+{
+  "name": "ecplayer",
+  "description": "A basic Shaka Player skin.",
+  "version": "1.0.0",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
+    "babel-eslint": "^8.0.1",
+    "babel-loader": "^7.1.2",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-env": "^1.6.0",
+    "better-npm-run": "^0.1.0",
+    "eslint": "^4.9.0",
+    "eslint-config-airbnb-base": "^12.0.2",
+    "eslint-loader": "^1.9.0",
+    "eslint-plugin-import": "^2.7.0",
+    "gulp": "^3.9.1",
+    "gulp-autoprefixer": "^4.0.0",
+    "gulp-clean": "^0.3.2",
+    "gulp-connect": "^5.0.0",
+    "gulp-eslint": "^4.0.0",
+    "gulp-htmlmin": "^3.0.0",
+    "gulp-image": "^4.0.0",
+    "gulp-plumber": "^1.1.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-sass": "^3.1.0",
+    "gulp-sequence": "^0.4.6",
+    "gulp-sourcemaps": "^2.6.1",
+    "html-loader": "^0.5.1",
+    "require-dir": "^0.3.2",
+    "webpack": "^3.7.1",
+    "webpack-stream": "^4.0.0"
+  },
+  "license": "MIT",
+  "scripts": {
+    "start": "gulp",
+    "build": "better-npm-run build"
+  },
+  "betterScripts": {
+    "build": {
+      "command": "gulp build",
+      "env": {
+        "NODE_ENV": "production"
+      }
+    }
+  },
+  "engines": {
+    "node": ">=6.9.1",
+    "npm": ">=3.10.8"
+  },
+  "dependencies": {
+    "events": "^1.1.1",
+    "shaka-player": "^2.2.2",
+    "underscore": "^1.8.3"
+  }
+}

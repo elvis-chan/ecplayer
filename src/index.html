@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <link rel="stylesheet" href="./ecplayer.css">
+</head>
+<body>
+  <h1>Shaka Player Skin</h1>
+
+  <div class="sample-video" style="width: 640px;">
+    <div id="sample-player"></div>
+  </div>
+
+  <script src="./ecplayer.js"></script>
+  <script>
+    var manifest = '//wowzaec2demo.streamlock.net/live/bigbuckbunny/manifest_mpm4sav_mvtime.mpd';
+
+    ecplayer('sample-player').setup({ file: manifest });
+  </script>
+</body>
+</html>

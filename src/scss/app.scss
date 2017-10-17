@@ -1,0 +1,70 @@
+.ecplayer {
+  position: relative;
+  width: 100%;
+  background-color: #000;
+  font-size: 16px;
+
+  * {
+    box-sizing: border-box;
+  }
+
+  &.ecp-is-fullscreen {
+    position: fixed;
+    height: 100%;
+  }
+}
+
+.ecp-title {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  background: linear-gradient(180deg, #000 0, #000 18%, transparent);
+  font-size: 1em;
+}
+
+.ecp-title-primary {
+  padding: .75em 1.5em;
+  min-height: 2.5em;
+  width: 100%;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  color: #fff;
+}
+
+.ecp-controls {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.ecp-media {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  font-size: 0;
+  line-height: 0;
+}
+
+.ecp-video {
+  width: 100%;
+  height: 100%;
+}
+
+.ecp-controlbar {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  padding: 0 .5em;
+  width: 100%;
+  height: 2.5em;
+  background-color: rgba(33, 33, 33, .8);
+}
