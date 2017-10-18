@@ -1,4 +1,7 @@
+import scriptLoader from 'utils/scriptLoader';
 import Api from './api';
+
+scriptLoader.load('ecplayer.css');
 
 const ecplayer = (query) => {
   let domElement = null;

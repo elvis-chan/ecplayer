@@ -20,7 +20,7 @@ gulp.task('watch', () => {
 });
 
 gulp.task('build', (done) => {
-  sequence('clean', ['html', 'script', 'style', 'image'], done);
+  sequence('clean', ['html', 'copy', 'script', 'style', 'image'], done);
 });
 
 gulp.task('default', (done) => {

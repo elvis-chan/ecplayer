@@ -50,7 +50,6 @@
   },
   "dependencies": {
     "events": "^1.1.1",
-    "shaka-player": "^2.2.2",
     "underscore": "^1.8.3"
   }
 }

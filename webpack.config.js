@@ -1,7 +1,7 @@
 import webpack from 'webpack';
 import path from 'path';
 
-import pkg from './package.json';
+import { name } from './package.json';
 
 module.exports = {
   watch: process.env.NODE_ENV !== 'production',
@@ -13,7 +13,7 @@ module.exports = {
   },
   output: {
     path: path.join(__dirname, '/dist'),
-    filename: `${pkg.name}.js`,
+    filename: `${name}.js`,
   },
   resolve: {
     alias: {

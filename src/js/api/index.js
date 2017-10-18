@@ -1,6 +1,6 @@
 import * as _ from 'underscore';
-import shaka from 'shaka-player';
 
+import scriptLoader from 'utils/scriptLoader';
 import { replaceWith, replaceClass, addClass, removeClass } from 'utils/dom';
 import ee from 'utils/events';
 import getMediaElement from 'api/getMediaElement';
@@ -185,7 +185,13 @@ export default class Api {
     }
   }
 
-  setup({ file, mute = false }) {
+  setup(options) {
+    scriptLoader.load('provider.shaka.js').then(() => { this.create(options); });
+
+    return this;
+  }
+
+  create({ file, mute = false }) {
     const playerContent = { content: playerTemplate, id: this.playerId };
 
     this.playerContainer = replaceWith(this.playerContainer, playerContent);
@@ -201,9 +207,9 @@ export default class Api {
       mediaElement.muted = true;
     }
 
-    shaka.polyfill.installAll();
+    window.shaka.polyfill.installAll();
 
-    const player = new shaka.Player(mediaElement);
+    const player = new window.shaka.Player(mediaElement);
 
     this.instance = player;
 
@@ -214,7 +220,5 @@ export default class Api {
     document.addEventListener('fullscreenchange', this.handleFullscreenChange.bind(this));
 
     player.load(file).then(this.handleLoadedManifest.bind(this));
-
-    return this;
   }
 }
