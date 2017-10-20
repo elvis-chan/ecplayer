@@ -52,6 +52,10 @@ const Api = function Api(ele) {
 
     getQualityLevels: () => core.getQualityLevels(),
 
+    getCurrentQuality: () => core.getCurrentQuality(),
+
+    setCurrentQuality: index => core.setCurrentQuality(index),
+
     setMute: (state) => {
       core.setMute(state);
       return this;

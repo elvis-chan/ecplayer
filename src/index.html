@@ -24,10 +24,14 @@
     var manifest = '//wowzaec2demo.streamlock.net/live/bigbuckbunny/manifest_mpm4sav_mvtime.mpd';
     var options = { file: manifest, mute: true, autoplay: true };
 
-    ecplayer('sample-player').setup(options);
+    ecplayer('sample-player').setup(options)
+      .on('playing', console.debug)
+      .on('paused', console.debug)
+      .on('levelChanged', console.debug);
     ecplayer('sample-player2').setup(options)
       .on('playing', console.debug)
-      .on('paused', console.debug);
+      .on('paused', console.debug)
+      .on('levelChanged', console.debug);
   </script>
 </body>
 </html>

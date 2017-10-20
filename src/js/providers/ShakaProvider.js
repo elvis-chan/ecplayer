@@ -1,3 +1,5 @@
+import * as _ from 'underscore';
+
 import { STATE_BUFFERING } from 'app/events';
 import DefaultProvider from './DefaultProvider';
 
@@ -26,8 +28,39 @@ class ShakaProvider extends DefaultProvider {
     this.instance.load(options.file).then(this.handleLoadedManifest.bind(this));
   }
 
-  handleLoadedManifest() {
+  getQualityLevels() {
     this.qualityLevels = this.instance.getVariantTracks();
+
+    this.outputQualityLevels = _.map(this.qualityLevels, qualityLevel => ({
+      bitrate: qualityLevel.bandwidth,
+      width: qualityLevel.width,
+      height: qualityLevel.height,
+      label: `${qualityLevel.height}p`,
+    }));
+
+    return this.outputQualityLevels;
+  }
+
+  getCurrentQuality() {
+    this.getQualityLevels();
+
+    const idx = _.findIndex(this.qualityLevels, qualityLevel => qualityLevel.active === true);
+
+    return this.outputQualityLevels[idx];
+  }
+
+  setCurrentQuality(index) {
+    if (index === -1) {
+      this.instance.configure({ abr: { enabled: true } });
+    } else {
+      this.instance.configure({ abr: { enabled: false } });
+      this.instance.selectVariantTrack(this.qualityLevels[index], true);
+    }
+  }
+
+  handleLoadedManifest() {
+    this.getQualityLevels();
+
     this.audioTracks = this.instance.getAudioLanguages();
 
     this.instance.addEventListener('buffering', this.handleBuffering.bind(this));

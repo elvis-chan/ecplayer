@@ -19,6 +19,8 @@ const API_COMMANDS = [
 
   // quality related
   'getQualityLevels',
+  'getCurrentQuality',
+  'setCurrentQuality',
 
   // volume related
   'setMute',

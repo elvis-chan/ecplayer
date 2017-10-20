@@ -10,4 +10,6 @@ export const STATE_PAUSED = 'paused';
 
 export const STATE_COMPLETE = 'complete';
 
+export const MEDIA_LEVEL_CHANGED = 'levelChanged';
+
 export const FULLSCREEN = 'fullscreen';

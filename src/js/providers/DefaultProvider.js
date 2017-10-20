@@ -10,7 +10,9 @@ class DefaultProvider {
   mediaEle = null;
 
   isInFullscreen = false;
+  isLive = false;
   qualityLevels = [];
+  outputQualityLevels = [];
   audioTracks = [];
 
   constructor(core) {
@@ -74,7 +76,7 @@ class DefaultProvider {
   }
 
   getQualityLevels() {
-    return this.qualityLevels;
+    return this.outputQualityLevels;
   }
 
   setMute(state) {
