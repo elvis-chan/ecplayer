@@ -3,12 +3,6 @@ import DefaultProvider from './DefaultProvider';
 class HlsProvider extends DefaultProvider {
   instance = null;
 
-  constructor(api) {
-    super(api);
-
-    this.state = 'IDLE';
-  }
-
   // eslint-disable-next-line class-methods-use-this
   getName() {
     return { name: 'hls' };
@@ -21,7 +15,7 @@ class HlsProvider extends DefaultProvider {
 
     this.instance = new Hls({
       // eslint-disable-next-line no-param-reassign
-      xhrSetup: (xhr) => { xhr.withCredentials = true; },
+      // xhrSetup: (xhr) => { xhr.withCredentials = true; },
     });
 
     if (options.autoplay) {
@@ -35,7 +29,14 @@ class HlsProvider extends DefaultProvider {
     this.instance.loadSource(options.file);
     this.instance.attachMedia(this.mediaEle);
 
-    // this.instance.on(Hls.Events.MANIFEST_PARSED, () => { console.log('ready'); });
+    this.instance.on(Hls.Events.MANIFEST_LOADED, this.handleLoadedManifest.bind(this));
+  }
+
+  handleLoadedManifest(e, { levels, audioTracks }) {
+    this.qualityLevels = levels;
+    this.audioTracks = audioTracks;
+
+    this.handleBuffering();
   }
 }
 

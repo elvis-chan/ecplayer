@@ -25,7 +25,9 @@
     var options = { file: manifest, mute: true, autoplay: true };
 
     ecplayer('sample-player').setup(options);
-    ecplayer('sample-player2').setup(options);
+    ecplayer('sample-player2').setup(options)
+      .on('playing', console.debug)
+      .on('paused', console.debug);
   </script>
 </body>
 </html>

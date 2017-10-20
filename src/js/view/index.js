@@ -1,16 +1,21 @@
-import { replaceWith } from 'utils/dom';
-import { PLAYBACK, FULLSCREEN } from 'app/events';
+import * as _ from 'underscore';
+
+import { replaceWith, addClass, removeClass, replaceClass } from 'utils/dom';
+import { STATE_BUFFERING, STATE_PLAYING, STATE_PAUSED, FULLSCREEN } from 'app/events';
 import getMediaElement from 'api/getMediaElement';
 import playerTemplate from 'templates/player.html';
 
 class View {
   playerId = '';
-  api = null;
+  core = null;
   containerEle = null;
 
-  setup({ id, api }) {
+  constructor(core) {
+    this.core = core;
+  }
+
+  setup({ id }) {
     this.playerId = id;
-    this.api = api;
     this.containerEle = document.getElementById(this.playerId);
 
     this.transform();
@@ -31,6 +36,12 @@ class View {
 
   init() {
     this.attachListeners();
+
+    _.each([STATE_BUFFERING, STATE_PLAYING, STATE_PAUSED], (event) => {
+      this.core.on(event, this.handleStateChange.bind(this));
+    });
+
+    this.core.on(FULLSCREEN, this.handleFullscreenChange.bind(this));
   }
 
   attachListeners() {
@@ -41,12 +52,26 @@ class View {
     fullscreenEle.addEventListener('click', this.handleClickFullscreen.bind(this));
   }
 
+  handleStateChange({ newState }) {
+    replaceClass(this.containerEle, /ecp-state-([a-z]*)/, `ecp-state-${newState}`);
+  }
+
+  handleFullscreenChange({ state }) {
+    if (state) {
+      addClass(this.containerEle, 'ecp-is-fullscreen');
+    } else {
+      removeClass(this.containerEle, 'ecp-is-fullscreen');
+    }
+  }
+
   handleClickPlayback() {
-    this.api.trigger(PLAYBACK);
+    this.core.togglePlayback();
   }
 
   handleClickFullscreen() {
-    this.api.trigger(FULLSCREEN, { state: false });
+    const newState = !this.core.getFullscreen();
+
+    this.core.setFullscreen(newState);
   }
 }
 

@@ -1,20 +1,50 @@
-import { PLAYBACK, FULLSCREEN } from 'app/events';
+import * as _ from 'underscore';
+
+import { STATE_IDLE, STATE_BUFFERING, STATE_PLAYING, STATE_PAUSED, FULLSCREEN } from 'app/events';
+import { isInFullscreen, requestFullscreen, exitFullscreen } from 'utils/fullscreen';
 
 class DefaultProvider {
+  core = null;
   api = null;
   options = {};
   mediaEle = null;
 
-  constructor(api) {
-    this.api = api;
+  isInFullscreen = false;
+  qualityLevels = [];
+  audioTracks = [];
+
+  constructor(core) {
+    this.core = core;
+    this.api = this.core.api;
+
+    this.state = STATE_IDLE;
   }
 
   setup(options) {
     this.options = options;
     this.mediaEle = this.options.mediaEle;
 
-    this.api.on(PLAYBACK, this.handlePlayback.bind(this));
-    this.api.on(FULLSCREEN, this.handleFullscreen.bind(this));
+    _.each(['fullscreenchange', 'webkitfullscreenchange', 'mozfullscreenchange', 'MSFullscreenChange'], (event) => {
+      document.addEventListener(event, this.handleFullscreenChange.bind(this), false);
+    });
+
+    this.mediaEle.onplay = this.handleOnPlay.bind(this);
+    this.mediaEle.onpause = this.handleOnPause.bind(this);
+  }
+
+  getState() {
+    return this.state;
+  }
+
+  setState(state) {
+    const oldState = this.state;
+    const newState = state;
+    const data = { newState, oldState };
+
+    this.state = newState;
+
+    this.core.trigger(state, data);
+    this.api.trigger(state, data);
   }
 
   play() {
@@ -25,16 +55,48 @@ class DefaultProvider {
     this.mediaEle.pause();
   }
 
-  handlePlayback() {
+  togglePlayback() {
     this[this.mediaEle.paused ? 'play' : 'pause']();
   }
 
-  handleFullscreen() {
-    if (document.fullscreenElement) {
-      document.exitFullscreen();
+  getFullscreen() {
+    return this.isInFullscreen;
+  }
+
+  setFullscreen(state) {
+    const containerEle = this.api.getContainer();
+
+    if (state) {
+      requestFullscreen(containerEle);
     } else {
-      this.api.getContainer().requestFullscreen();
+      exitFullscreen(document);
     }
+  }
+
+  getQualityLevels() {
+    return this.qualityLevels;
+  }
+
+  setMute(state) {
+    this.mediaEle.muted = state;
+  }
+
+  handleBuffering() {
+    this.setState(STATE_BUFFERING);
+  }
+
+  handleOnPlay() {
+    this.setState(STATE_PLAYING);
+  }
+
+  handleOnPause() {
+    this.setState(STATE_PAUSED);
+  }
+
+  handleFullscreenChange() {
+    this.isInFullscreen = isInFullscreen() || false;
+
+    this.core.trigger(FULLSCREEN, { state: this.isInFullscreen });
   }
 }
 

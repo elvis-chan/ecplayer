@@ -1,11 +1,28 @@
 import * as _ from 'underscore';
 import mime from 'mime-types';
 
+import EventModel from 'app/EventModel';
 import View from 'view';
 import getMediaElement from 'api/getMediaElement';
 import Providers from 'providers';
 
-const API_COMMANDS = ['play', 'pause', 'getQualityLevels'];
+const API_COMMANDS = [
+  // playback related
+  'getState',
+  'play',
+  'pause',
+  'togglePlayback',
+
+  // resize related
+  'getFullscreen',
+  'setFullscreen',
+
+  // quality related
+  'getQualityLevels',
+
+  // volume related
+  'setMute',
+];
 
 class Core {
   containerEle = null;
@@ -14,9 +31,9 @@ class Core {
 
   setup({ container, api }) {
     this.api = api;
-    this.view = new View();
+    this.view = new View(this);
 
-    this.view.setup({ id: container.id, api });
+    this.view.setup({ id: container.id });
 
     this.containerEle = document.getElementById(container.id);
   }
@@ -36,7 +53,7 @@ class Core {
       this[command] = (...rest) => {
         const method = this.provider[command];
 
-        if (method) { method.apply(this.provider, rest); }
+        return method.apply(this.provider, rest);
       };
     });
   }
@@ -56,7 +73,7 @@ class Core {
       type = 'html5';
     }
 
-    const providers = new Providers(this.api);
+    const providers = new Providers(this);
 
     providers.load([type]).then(() => {
       this.provider = providers.choose(type);
@@ -74,5 +91,7 @@ class Core {
     return this.containerEle;
   }
 }
+
+Object.assign(Core.prototype, EventModel);
 
 export default Core;

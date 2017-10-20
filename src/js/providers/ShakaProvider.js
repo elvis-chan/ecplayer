@@ -1,13 +1,8 @@
+import { STATE_BUFFERING } from 'app/events';
 import DefaultProvider from './DefaultProvider';
 
 class ShakaProvider extends DefaultProvider {
   instance = null;
-
-  constructor(api) {
-    super(api);
-
-    this.state = 'IDLE';
-  }
 
   // eslint-disable-next-line class-methods-use-this
   getName() {
@@ -28,12 +23,20 @@ class ShakaProvider extends DefaultProvider {
     window.shaka.polyfill.installAll();
 
     this.instance = new window.shaka.Player(this.mediaEle);
-    this.instance.load(options.file);
+    this.instance.load(options.file).then(this.handleLoadedManifest.bind(this));
   }
 
-  getQualityLevels() {
-    console.warn(this.instance.getVariantTracks());
-    return this.instance.getVariantTracks();
+  handleLoadedManifest() {
+    this.qualityLevels = this.instance.getVariantTracks();
+    this.audioTracks = this.instance.getAudioLanguages();
+
+    this.instance.addEventListener('buffering', this.handleBuffering.bind(this));
+  }
+
+  handleBuffering({ buffering }) {
+    if (buffering) {
+      this.setState(STATE_BUFFERING);
+    }
   }
 }
 

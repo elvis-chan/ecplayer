@@ -1,7 +1,4 @@
-
-import * as _ from 'underscore';
-
-import Events from 'utils/events';
+import EventModel from 'app/EventModel';
 import Core from 'core';
 
 let createdInstance = 0;
@@ -24,54 +21,44 @@ const Api = function Api(ele) {
     setup: (options) => {
       core.setup({ container: ele, api: this });
       core.init(options);
-
       return this;
     },
 
     load: (manifest) => {
       core.load(manifest);
-
       return this;
     },
 
-    getContainer() {
-      return core.getContainer();
-    },
+    getContainer: () => core.getContainer(),
 
-    getQualityLevels() {
-      return core.getQualityLevels();
-    },
+    getState: () => core.getState(),
 
     play: (state) => {
       core.play(state);
-
       return this;
     },
 
     pause: () => {
       core.pause();
+      return this;
+    },
 
+    getFullscreen: () => core.getFullscreen(),
+
+    setFullscreen: (state) => {
+      core.setFullscreen(state);
+      return this;
+    },
+
+    getQualityLevels: () => core.getQualityLevels(),
+
+    setMute: (state) => {
+      core.setMute(state);
       return this;
     },
   });
 };
 
-Object.assign(Api.prototype, {
-  on: function on(name, callback, context) {
-    return Events.on.call(this, name, callback, context);
-  },
-
-  off: function off(name, callback, context) {
-    return Events.off.call(this, name, callback, context);
-  },
-
-  trigger: function trigger(name, e) {
-    const args = _.isObject(e) ? Object.assign({}, e) : {};
-
-    args.type = name;
-
-    return Events.triggerSafe.call(this, name, args);
-  },
-});
+Object.assign(Api.prototype, EventModel);
 
 export default Api;
