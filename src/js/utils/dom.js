@@ -27,7 +27,7 @@ export const replaceWith = (element, options) => {
   const { content, id } = options;
   const newElement = createElement(content, id);
 
-  element.replaceWith(newElement);
+  element.parentNode.replaceChild(newElement, element);
 
   return document.getElementById(id);
 };

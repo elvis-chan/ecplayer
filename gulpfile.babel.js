@@ -24,5 +24,5 @@ gulp.task('build', (done) => {
 });
 
 gulp.task('default', (done) => {
-  sequence('server', 'watch', 'lint', 'build', done);
+  sequence('server', 'watch', 'copy', 'lint', 'build', done);
 });

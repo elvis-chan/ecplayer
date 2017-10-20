@@ -14,13 +14,17 @@ module.exports = {
   output: {
     path: path.join(__dirname, '/dist'),
     filename: `${name}.js`,
+    chunkFilename: '[name].js',
   },
   resolve: {
     alias: {
       templates: path.resolve(process.cwd(), 'src/templates'),
+      app: path.resolve(process.cwd(), 'src/js'),
       api: path.resolve(process.cwd(), 'src/js/api'),
       utils: path.resolve(process.cwd(), 'src/js/utils'),
-      views: path.resolve(process.cwd(), 'src/js/views'),
+      core: path.resolve(process.cwd(), 'src/js/core'),
+      view: path.resolve(process.cwd(), 'src/js/view'),
+      providers: path.resolve(process.cwd(), 'src/js/providers'),
     },
     modules: ['node_modules', 'src'],
     extensions: ['.json', '.js', 'index.js'],
@@ -37,7 +41,7 @@ module.exports = {
       {
         test: /\.js$/,
         exclude: /(node_modules|bower_components)/,
-        use: { loader: 'babel-loader', options: { presets: ['env'] } },
+        use: { loader: 'babel-loader' },
       },
       { test: /\.html$/, use: 'html-loader' },
     ],

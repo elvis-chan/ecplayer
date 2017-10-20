@@ -5,17 +5,27 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Media Player Skin</title>
+  <style>
+    .sample-video { width: 100%; min-width: 320px; }
+    .sample-video:not(:first-child) { margin-top: 16px }
+  </style>
 </head>
 <body>
-  <div class="sample-video" style="width: 640px;">
+  <div class="sample-video">
     <div id="sample-player"></div>
+  </div>
+
+  <div class="sample-video">
+    <div id="sample-player2"></div>
   </div>
 
   <script src="./ecplayer.js"></script>
   <script>
     var manifest = '//wowzaec2demo.streamlock.net/live/bigbuckbunny/manifest_mpm4sav_mvtime.mpd';
+    var options = { file: manifest, mute: true, autoplay: true };
 
-    ecplayer('sample-player').setup({ file: manifest });
+    ecplayer('sample-player').setup(options);
+    ecplayer('sample-player2').setup(options);
   </script>
 </body>
 </html>

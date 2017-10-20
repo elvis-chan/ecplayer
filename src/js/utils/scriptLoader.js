@@ -70,7 +70,7 @@ class ScriptLoader {
     tag.charset = 'utf-8';
     tag.async = true;
     tag.timeout = SCRIPT_TIMEOUT_MS;
-    tag.src = `${this.scriptPath}/${scriptName}`;
+    tag.src = `${this.scriptPath}${scriptName}`;
 
     return tag;
   }
@@ -80,7 +80,7 @@ class ScriptLoader {
 
     tag.type = 'text/css';
     tag.rel = 'stylesheet';
-    tag.href = `${this.scriptPath}/${scriptName}`;
+    tag.href = `${this.scriptPath}${scriptName}`;
 
     return tag;
   }
