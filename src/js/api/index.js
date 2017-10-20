@@ -58,10 +58,19 @@ const Api = function Api(ele) {
 
     getMute: () => core.getMute(),
 
+    getVolume: () => core.getVolume(),
+
     setMute: (state) => {
       core.setMute(state);
       return this;
     },
+
+    setVolume: (volume) => {
+      core.setVolume(volume);
+
+      return this;
+    },
+
   });
 };
 

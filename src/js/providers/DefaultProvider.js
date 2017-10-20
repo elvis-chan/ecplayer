@@ -83,8 +83,18 @@ class DefaultProvider {
     return this.mediaEle.muted;
   }
 
+  getVolume() {
+    return this.mediaEle.volume;
+  }
+
   setMute(state) {
     this.mediaEle.muted = state;
+  }
+
+  setVolume(volume) {
+    if (_.isNumber(volume)) {
+      this.mediaEle.volume = volume / 100;
+    }
   }
 
   handleBuffering() {

@@ -24,7 +24,9 @@ const API_COMMANDS = [
 
   // volume related
   'getMute',
+  'getVolume',
   'setMute',
+  'setVolume',
 ];
 
 class Core {
