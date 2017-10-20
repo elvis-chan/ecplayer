@@ -23,6 +23,7 @@ const API_COMMANDS = [
   'setCurrentQuality',
 
   // volume related
+  'getMute',
   'setMute',
 ];
 

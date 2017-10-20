@@ -56,6 +56,8 @@ const Api = function Api(ele) {
 
     setCurrentQuality: index => core.setCurrentQuality(index),
 
+    getMute: () => core.getMute(),
+
     setMute: (state) => {
       core.setMute(state);
       return this;

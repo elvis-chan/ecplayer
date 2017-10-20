@@ -79,6 +79,10 @@ class DefaultProvider {
     return this.outputQualityLevels;
   }
 
+  getMute() {
+    return this.mediaEle.muted;
+  }
+
   setMute(state) {
     this.mediaEle.muted = state;
   }
