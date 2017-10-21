@@ -46,9 +46,13 @@ class View {
 
   attachListeners() {
     const playbackEle = this.containerEle.getElementsByClassName('ecp-button-playback')[0];
+    const muteEle = this.containerEle.getElementsByClassName('ecp-button-mute')[0];
+    const volumeSliderEle = this.containerEle.getElementsByClassName('ecp-volume-slider')[0];
     const fullscreenEle = this.containerEle.getElementsByClassName('ecp-button-fullscreen')[0];
 
     playbackEle.addEventListener('click', this.handleClickPlayback.bind(this));
+    muteEle.addEventListener('click', this.handleClickMute.bind(this));
+    volumeSliderEle.addEventListener('change', this.handleChangeVolumeSlider.bind(this));
     fullscreenEle.addEventListener('click', this.handleClickFullscreen.bind(this));
   }
 
@@ -66,6 +70,18 @@ class View {
 
   handleClickPlayback() {
     this.core.togglePlayback();
+  }
+
+  handleClickMute() {
+    const newState = !this.core.getMute();
+
+    this.core.setMute(newState);
+  }
+
+  handleChangeVolumeSlider({ target }) {
+    const volume = parseInt(target.value, 10);
+
+    this.core.setVolume(volume);
   }
 
   handleClickFullscreen() {
