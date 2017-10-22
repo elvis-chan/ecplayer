@@ -1,7 +1,7 @@
 import * as _ from 'underscore';
 
-import { STATE_IDLE, STATE_BUFFERING, STATE_PLAYING, STATE_PAUSED, FULLSCREEN } from 'app/events';
 import { isInFullscreen, requestFullscreen, exitFullscreen } from 'utils/fullscreen';
+import { STATE_IDLE, STATE_BUFFERING, STATE_PLAYING, STATE_PAUSED, MEDIA_TIME, FULLSCREEN } from 'app/events';
 
 class DefaultProvider {
   core = null;
@@ -11,6 +11,8 @@ class DefaultProvider {
 
   isInFullscreen = false;
   isLive = false;
+  duration = 0;
+  currentPlaybackTime = 0;
   qualityLevels = [];
   outputQualityLevels = [];
   audioTracks = [];
@@ -30,8 +32,10 @@ class DefaultProvider {
       document.addEventListener(event, this.handleFullscreenChange.bind(this), false);
     });
 
+    this.mediaEle.onloadedmetadata = this.handleOnLoadedMetadata.bind(this);
     this.mediaEle.onplay = this.handleOnPlay.bind(this);
     this.mediaEle.onpause = this.handleOnPause.bind(this);
+    this.mediaEle.ontimeupdate = this.handleOnTimeUpdate.bind(this);
   }
 
   getState() {
@@ -59,6 +63,14 @@ class DefaultProvider {
 
   togglePlayback() {
     this[this.mediaEle.paused ? 'play' : 'pause']();
+  }
+
+  getPosition() {
+    return this.currentPlaybackTime || 0;
+  }
+
+  getDuration() {
+    return this.mediaEle.duration;
   }
 
   getFullscreen() {
@@ -97,6 +109,14 @@ class DefaultProvider {
     }
   }
 
+  handleOnLoadedMetadata() {
+    this.duration = this.mediaEle.duration;
+
+    const data = { duration: this.getDuration(), currentPlaybackTime: this.getPosition() };
+
+    this.core.trigger(MEDIA_TIME, data);
+  }
+
   handleBuffering() {
     this.setState(STATE_BUFFERING);
   }
@@ -107,6 +127,14 @@ class DefaultProvider {
 
   handleOnPause() {
     this.setState(STATE_PAUSED);
+  }
+
+  handleOnTimeUpdate() {
+    this.currentPlaybackTime = this.mediaEle.currentTime;
+
+    const data = { duration: this.getDuration(), currentPlaybackTime: this.getPosition() };
+
+    this.core.trigger(MEDIA_TIME, data);
   }
 
   handleFullscreenChange() {

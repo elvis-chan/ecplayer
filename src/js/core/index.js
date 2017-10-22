@@ -13,6 +13,10 @@ const API_COMMANDS = [
   'pause',
   'togglePlayback',
 
+  // seek related
+  'getPosition',
+  'getDuration',
+
   // resize related
   'getFullscreen',
   'setFullscreen',

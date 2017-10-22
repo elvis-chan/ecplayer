@@ -1,7 +1,8 @@
 import * as _ from 'underscore';
 
 import { replaceWith, addClass, removeClass, replaceClass } from 'utils/dom';
-import { STATE_BUFFERING, STATE_PLAYING, STATE_PAUSED, FULLSCREEN } from 'app/events';
+import { toHumanReadable } from 'utils/strings';
+import { STATE_BUFFERING, STATE_PLAYING, STATE_PAUSED, MEDIA_TIME, FULLSCREEN } from 'app/events';
 import getMediaElement from 'api/getMediaElement';
 import playerTemplate from 'templates/player.html';
 
@@ -41,6 +42,7 @@ class View {
       this.core.on(event, this.handleStateChange.bind(this));
     });
 
+    this.core.on(MEDIA_TIME, this.handleTimeUpdate.bind(this));
     this.core.on(FULLSCREEN, this.handleFullscreenChange.bind(this));
   }
 
@@ -58,6 +60,14 @@ class View {
 
   handleStateChange({ newState }) {
     replaceClass(this.containerEle, /ecp-state-([a-z]*)/, `ecp-state-${newState}`);
+  }
+
+  handleTimeUpdate({ duration, currentPlaybackTime }) {
+    const elapsedEle = this.containerEle.getElementsByClassName('ecp-time-elapsed')[0];
+    const durationEle = this.containerEle.getElementsByClassName('ecp-time-duration')[0];
+
+    elapsedEle.innerHTML = toHumanReadable(currentPlaybackTime);
+    durationEle.innerHTML = toHumanReadable(duration);
   }
 
   handleFullscreenChange({ state }) {

@@ -43,6 +43,10 @@ const Api = function Api(ele) {
       return this;
     },
 
+    getPosition: () => core.getPosition(),
+
+    getDuration: () => core.getDuration(),
+
     getFullscreen: () => core.getFullscreen(),
 
     setFullscreen: (state) => {
