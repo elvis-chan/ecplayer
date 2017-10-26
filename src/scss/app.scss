@@ -87,6 +87,7 @@ $control-bar-height: 36px;
   }
 
   [class^="ecp-icon-"], [class*=" ecp-icon-"] {
+    vertical-align: middle;
     &:hover {
       color: #fff;
     }
@@ -101,11 +102,9 @@ $control-bar-height: 36px;
       height: 100%;
       vertical-align: top;
     }
-    i {
-      vertical-align: middle;
-    }
+
     .ecp-time-bar {
-      span {
+      [class^="ecp-time-"] {
         line-height: $control-bar-height;
         display: none;
       }
@@ -116,9 +115,6 @@ $control-bar-height: 36px;
     float: right;
     height: 100%;
 
-    i {
-      vertical-align: middle;
-    }
     .ecp-button-settings {
       transition: transform 300ms;
     }
