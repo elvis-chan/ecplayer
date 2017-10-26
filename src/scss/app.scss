@@ -1,4 +1,4 @@
-@import './slider/style';
+@import './VolumeSlider/style';
 @import '../fonts/ecplayer/icons.css';
 
 $control-bar-height: 36px;
@@ -102,44 +102,44 @@ $control-bar-height: 36px;
       height: 100%;
       vertical-align: top;
     }
+  }
 
-    .ecp-time-bar {
-      [class^="ecp-time-"] {
-        line-height: $control-bar-height;
-        display: none;
-      }
+  .ecp-time-bar {
+    [class^="ecp-time-"] {
+      line-height: $control-bar-height;
+      display: none;
     }
   }
 
   .ecp-right-controls {
     float: right;
     height: 100%;
+  }
 
-    .ecp-button-settings {
-      transition: transform 300ms;
-    }
-    .ecp-video-tracks {
-      display: none;
-      list-style: none;
-      padding: 5px;
-      margin: 0;
-      position: absolute;
-      bottom: $control-bar-height;
-      width: 100px;
-      right: 0;
-      background-color: rgba(0, 0, 0, 0.5);
-      text-align: center;
-      &.shown {
-        display: block;
-      }
-      .ecp-resolution {
-        color: #fff;
-        &:hover {
-          cursor: pointer;
-        }
-      }
-    }
+  .ecp-button-settings {
+    transition: transform 300ms;
+  }
 
+  .ecp-video-tracks {
+    display: none;
+    list-style: none;
+    padding: 5px;
+    margin: 0;
+    position: absolute;
+    bottom: $control-bar-height;
+    width: 100px;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    text-align: center;
+    &.shown {
+      display: block;
+    }
+    .ecp-resolution {
+      color: #fff;
+      &:hover {
+        cursor: pointer;
+      }
+    }
   }
 }
 
