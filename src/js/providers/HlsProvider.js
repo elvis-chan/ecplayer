@@ -21,14 +21,6 @@ class HlsProvider extends DefaultProvider {
       // xhrSetup: (xhr) => { xhr.withCredentials = true; },
     });
 
-    if (options.autoplay) {
-      this.mediaEle.autoplay = true;
-    }
-
-    if (options.mute) {
-      this.mediaEle.muted = true;
-    }
-
     this.instance.loadSource(options.file);
     this.instance.attachMedia(this.mediaEle);
 

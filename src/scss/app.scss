@@ -1,3 +1,11 @@
+@import './slider/style';
+
+$control-bar-height: 36px;
+* {
+  // outline:none !important;
+  transition: transform 0.3s;
+}
+
 .ecplayer {
   position: relative;
   width: 100%;
@@ -33,6 +41,7 @@
 }
 
 .ecp-controls {
+
   position: absolute;
   top: 0;
   left: 0;
@@ -65,8 +74,78 @@
   bottom: 0;
   padding: 0 .5em;
   width: 100%;
-  height: 2.5em;
+  height: 36px;
   background-color: rgba(33, 33, 33, .8);
+
+  button {
+    border: none;
+    margin: 0;
+    padding: 0;
+    background: none !important;
+    color: white;
+    outline: none;
+    cursor: pointer;
+    height: 100%;
+    vertical-align: top;
+  }
+
+  [class^="ecp-icon-"], [class*=" ecp-icon-"] {
+    &:hover {
+      color: #fff;
+    }
+  }
+
+  .ecp-left-controls {
+    float: left;
+    height: 100%;
+    
+    & > * {
+      display: inline-block;
+      height: 100%;
+      vertical-align: top;
+    }
+    i {
+      vertical-align: middle;
+    }
+    .ecp-time-bar {
+      span {
+        line-height: $control-bar-height;
+        display: none;
+      }
+    }
+  }
+
+  .ecp-right-controls {
+    float: right;
+    height: 100%;
+
+    i {
+      vertical-align: middle;
+    }
+
+    .ecp-video-tracks {
+      display: none;
+      list-style: none;
+      padding: 5px;
+      margin: 0;
+      position: absolute;
+      bottom: $control-bar-height;
+      width: 100px;
+      right: 0;
+      background-color: rgba(0, 0, 0, 0.5);
+      text-align: center;
+      &.shown {
+        display: block;
+      }
+      .ecp-resolution {
+        color: #fff;
+        &:hover {
+          cursor: pointer;
+        }
+      }
+    }
+
+  }
 }
 
 .ecp-time-elapsed,

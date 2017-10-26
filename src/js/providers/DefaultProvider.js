@@ -1,7 +1,7 @@
 import * as _ from 'underscore';
 
 import { isInFullscreen, requestFullscreen, exitFullscreen } from 'utils/fullscreen';
-import { STATE_IDLE, STATE_BUFFERING, STATE_PLAYING, STATE_PAUSED, MEDIA_TIME, FULLSCREEN } from 'app/events';
+import { STATE_IDLE, STATE_BUFFERING, STATE_PLAYING, STATE_PAUSED, MEDIA_TIME, FULLSCREEN, MUTE } from 'app/events';
 
 class DefaultProvider {
   core = null;
@@ -27,15 +27,23 @@ class DefaultProvider {
   setup(options) {
     this.options = options;
     this.mediaEle = this.options.mediaEle;
-
     _.each(['fullscreenchange', 'webkitfullscreenchange', 'mozfullscreenchange', 'MSFullscreenChange'], (event) => {
       document.addEventListener(event, this.handleFullscreenChange.bind(this), false);
     });
+
+    if (this.options.autoplay) {
+      this.mediaEle.autoplay = true;
+    }
+
+    if (this.options.mute) {
+      this.mediaEle.muted = true;
+    }
 
     this.mediaEle.onloadedmetadata = this.handleOnLoadedMetadata.bind(this);
     this.mediaEle.onplay = this.handleOnPlay.bind(this);
     this.mediaEle.onpause = this.handleOnPause.bind(this);
     this.mediaEle.ontimeupdate = this.handleOnTimeUpdate.bind(this);
+    this.mediaEle.onvolumechange = this.handleOnVolumeChange.bind(this);
   }
 
   getState() {
@@ -141,6 +149,10 @@ class DefaultProvider {
     this.isInFullscreen = isInFullscreen() || false;
 
     this.core.trigger(FULLSCREEN, { state: this.isInFullscreen });
+  }
+
+  handleOnVolumeChange() {
+    this.core.trigger(MUTE, { state: this.mediaEle.muted ? true : this.mediaEle.volume });
   }
 }
 

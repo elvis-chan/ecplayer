@@ -14,6 +14,14 @@ const setClassName = (element, className) => {
   }
 };
 
+export const toggleClass = (element, className) => {
+  element.classList.toggle(className);
+};
+
+export const hasClass = (element, className) => {
+  return element.className && new RegExp(`(^|\\s)${className}(\\s|$)`).test(element.className);
+};
+
 export const createElement = (content, id = '') => {
   const newElement = document.createElement('div');
 
