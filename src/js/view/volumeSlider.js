@@ -36,18 +36,18 @@ class VolumeSlider {
   }
 
   handleOnVolChange({ state }) {
-    const muteBtn = this.view.containerEle.getElementsByClassName('ecp-button-mute')[0];
+    const muteEle = this.view.containerEle.getElementsByClassName('ecp-button-mute')[0];
     if (typeof state !== 'number') {
-      addClass(muteBtn.children[0], 'ecp-icon-volume-0');
-      removeClass(muteBtn.children[0], 'ecp-icon-volume-100');
+      addClass(muteEle.children[0], 'ecp-icon-volume-0');
+      removeClass(muteEle.children[0], 'ecp-icon-volume-100');
     } else {
       /* eslint-disable */
       if (state === 0) {
-        addClass(muteBtn.children[0], 'ecp-icon-volume-0');
-        removeClass(muteBtn.children[0], 'ecp-icon-volume-100');
+        addClass(muteEle.children[0], 'ecp-icon-volume-0');
+        removeClass(muteEle.children[0], 'ecp-icon-volume-100');
       } else {
-        addClass(muteBtn.children[0], 'ecp-icon-volume-100');
-        removeClass(muteBtn.children[0], 'ecp-icon-volume-0');
+        addClass(muteEle.children[0], 'ecp-icon-volume-100');
+        removeClass(muteEle.children[0], 'ecp-icon-volume-0');
       }
       /* eslint-enable */
     }

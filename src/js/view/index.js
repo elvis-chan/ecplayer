@@ -40,8 +40,8 @@ class View {
     this.attachListeners();
 
     const sliderEle = this.containerEle.getElementsByClassName('ecp-volume-slider')[0];
-    const volBtn = this.containerEle.getElementsByClassName('ecp-button-mute')[0];
-    this.volumeSlider = new VolumeSlider(this, sliderEle, volBtn);
+    const muteEle = this.containerEle.getElementsByClassName('ecp-button-mute')[0];
+    this.volumeSlider = new VolumeSlider(this, sliderEle, muteEle);
     this.volumeSlider.setup();
     this.checkAutoPlay();
 
@@ -56,37 +56,37 @@ class View {
   attachListeners() {
     const playbackEle = this.containerEle.getElementsByClassName('ecp-button-playback')[0];
     const fullscreenEle = this.containerEle.getElementsByClassName('ecp-button-fullscreen')[0];
-    const settingBtn = this.containerEle.getElementsByClassName('ecp-button-settings')[0];
+    const settingEle = this.containerEle.getElementsByClassName('ecp-button-settings')[0];
     const videoTracks = this.containerEle.getElementsByClassName('ecp-video-tracks')[0];
 
     playbackEle.addEventListener('click', this.handleClickPlayback.bind(this));
     fullscreenEle.addEventListener('click', this.handleClickFullscreen.bind(this));
-    settingBtn.addEventListener('click', this.handleClickSetting.bind(this));
+    settingEle.addEventListener('click', this.handleClickSetting.bind(this));
     videoTracks.addEventListener('click', this.handleClickVideoTracks.bind(this));
   }
 
   checkAutoPlay() {
-    const playBtn = this.containerEle.getElementsByClassName('ecp-button-playback')[0];
+    const playBackEle = this.containerEle.getElementsByClassName('ecp-button-playback')[0];
     if (this.mediaEle.autoplay) {
-      addClass(playBtn.children[0], 'ecp-icon-pause');
-      removeClass(playBtn.children[0], 'ecp-icon-play');
+      addClass(playBackEle.children[0], 'ecp-icon-pause');
+      removeClass(playBackEle.children[0], 'ecp-icon-play');
     } else {
-      addClass(playBtn.children[0], 'ecp-icon-play');
-      removeClass(playBtn.children[0], 'ecp-icon-pause');
+      addClass(playBackEle.children[0], 'ecp-icon-play');
+      removeClass(playBackEle.children[0], 'ecp-icon-pause');
     }
   }
 
   handleStateChange({ newState }) {
     replaceClass(this.containerEle, /ecp-state-([a-z]*)/, `ecp-state-${newState}`);
-    const playBtn = this.containerEle.getElementsByClassName('ecp-button-playback')[0];
+    const playBackEle = this.containerEle.getElementsByClassName('ecp-button-playback')[0];
     switch (newState) {
       case STATE_PLAYING:
-        addClass(playBtn.children[0], 'ecp-icon-pause');
-        removeClass(playBtn.children[0], 'ecp-icon-play');
+        addClass(playBackEle.children[0], 'ecp-icon-pause');
+        removeClass(playBackEle.children[0], 'ecp-icon-play');
         break;
       case STATE_PAUSED:
-        addClass(playBtn.children[0], 'ecp-icon-play');
-        removeClass(playBtn.children[0], 'ecp-icon-pause');
+        addClass(playBackEle.children[0], 'ecp-icon-play');
+        removeClass(playBackEle.children[0], 'ecp-icon-pause');
         break;
       default:
         break;
@@ -121,16 +121,16 @@ class View {
   }
   handleClickFullscreen() {
     const newState = !this.core.getFullscreen();
-    const fullscreenBtn = this.containerEle.getElementsByClassName('ecp-button-fullscreen')[0];
+    const fullscreenEle = this.containerEle.getElementsByClassName('ecp-button-fullscreen')[0];
 
     this.core.setFullscreen(newState);
 
     if (newState) {
-      fullscreenBtn.children[0].classList.add('ecp-icon-fullscreen-exit');
-      fullscreenBtn.children[0].classList.remove('ecp-icon-fullscreen');
+      fullscreenEle.children[0].classList.add('ecp-icon-fullscreen-exit');
+      fullscreenEle.children[0].classList.remove('ecp-icon-fullscreen');
     } else {
-      fullscreenBtn.children[0].classList.add('ecp-icon-fullscreen');
-      fullscreenBtn.children[0].classList.remove('ecp-icon-fullscreen-exit');
+      fullscreenEle.children[0].classList.add('ecp-icon-fullscreen');
+      fullscreenEle.children[0].classList.remove('ecp-icon-fullscreen-exit');
     }
   }
 
