@@ -14,13 +14,10 @@ const setClassName = (element, className) => {
   }
 };
 
-export const toggleClass = (element, className) => {
-  element.classList.toggle(className);
-};
-
 export const hasClass = (element, className) => {
   return element.className && new RegExp(`(^|\\s)${className}(\\s|$)`).test(element.className);
 };
+
 
 export const createElement = (content, id = '') => {
   const newElement = document.createElement('div');
@@ -51,13 +48,11 @@ export const classList = (element) => {
 export const addClass = (element, classes) => {
   const originalClasses = classNameArray(element);
   const addClasses = _.isArray(classes) ? classes : classes.split(' ');
-
   _.each(addClasses, (newClass) => {
     if (!_.contains(originalClasses, newClass)) {
       originalClasses.push(newClass);
     }
   });
-
   setClassName(element, originalClasses.join(' '));
 };
 
@@ -66,6 +61,14 @@ export const removeClass = (element, classes) => {
   const removeClasses = _.isArray(classes) ? classes : classes.split(' ');
 
   setClassName(element, _.difference(originalClasses, removeClasses).join(' '));
+};
+
+export const toggleClass = (element, className) => {
+  if (hasClass(element, className)) {
+    removeClass(element, className);
+  } else {
+    addClass(element, className);
+  }
 };
 
 export const replaceClass = (element, pattern, replacement) => {
