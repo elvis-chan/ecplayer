@@ -1,7 +1,7 @@
 import { MUTE } from 'app/events';
 import { addClass, removeClass } from 'utils/dom';
 
-class Slider {
+class VolumeSlider {
   constructor(view, sliderEle, controlEle) {
     /* eslint-disable */
     console.log(view);
@@ -170,4 +170,4 @@ class Slider {
   }
 }
 
-export default Slider;
+export default VolumeSlider;

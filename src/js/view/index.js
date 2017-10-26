@@ -2,7 +2,8 @@ import * as _ from 'underscore';
 
 import { replaceWith, addClass, removeClass, replaceClass, toggleClass, hasClass } from 'utils/dom';
 import { toHumanReadable } from 'utils/strings';
-import Slider from 'utils/slider';
+// import VolumeSlider from 'utils/volumeSlider';
+import VolumeSlider from 'view/volumeSlider';
 import { STATE_BUFFERING, STATE_PLAYING, STATE_PAUSED, MEDIA_TIME, FULLSCREEN } from 'app/events';
 import getMediaElement from 'api/getMediaElement';
 import playerTemplate from 'templates/player.html';
@@ -40,8 +41,8 @@ class View {
 
     const sliderEle = this.containerEle.getElementsByClassName('ecp-volume-slider')[0];
     const volBtn = this.containerEle.getElementsByClassName('ecp-button-mute')[0];
-    this.volSlider = new Slider(this, sliderEle, volBtn);
-    this.volSlider.setup();
+    this.volumeSlider = new VolumeSlider(this, sliderEle, volBtn);
+    this.volumeSlider.setup();
     this.checkAutoPlay();
 
     _.each([STATE_BUFFERING, STATE_PLAYING, STATE_PAUSED], (event) => {
