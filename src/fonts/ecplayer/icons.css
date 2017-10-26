@@ -26,12 +26,33 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Added by [J] */
+.ecp-icon-playback:before {
+  content: "\e906";
+}
+.ecp-state-playing .ecp-icon-playback:before,
+.ecp-state-buffering .ecp-icon-playback:before {
+  content: "\e906";
+}
+.ecp-state-paused .ecp-icon-playback:before {
+  content: "\e907";
+} 
+
 .ecp-icon-fullscreen:before {
   content: "\e900";
 }
-.ecp-icon-fullscreen-exit:before {
+.ecp-is-fullscreen .ecp-icon-fullscreen:before {
   content: "\e901";
 }
+
+
+/* Added by [J] */
+// .ecp-icon-fullscreen:before {
+//   content: "\e900";
+// }
+// .ecp-icon-fullscreen-exit:before {
+//   content: "\e901";
+// }
 .ecp-icon-live:before {
   content: "\e902";
 }
@@ -47,12 +68,12 @@
 .ecp-icon-next:before {
   content: "\e905";
 }
-.ecp-icon-pause:before {
-  content: "\e906";
-}
-.ecp-icon-play:before {
-  content: "\e907";
-}
+// .ecp-icon-pause:before {
+//   content: "\e906";
+// }
+// .ecp-icon-play:before {
+//   content: "\e907";
+// }
 .ecp-icon-settings:before {
   content: "\e908";
 }

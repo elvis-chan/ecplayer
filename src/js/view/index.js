@@ -43,7 +43,7 @@ class View {
     const muteEle = this.containerEle.getElementsByClassName('ecp-button-mute')[0];
     this.volumeSlider = new VolumeSlider(this, sliderEle, muteEle);
     this.volumeSlider.setup();
-    this.checkAutoPlay();
+    // this.checkAutoPlay();
 
     _.each([STATE_BUFFERING, STATE_PLAYING, STATE_PAUSED], (event) => {
       this.core.on(event, this.handleStateChange.bind(this));
@@ -78,19 +78,6 @@ class View {
 
   handleStateChange({ newState }) {
     replaceClass(this.containerEle, /ecp-state-([a-z]*)/, `ecp-state-${newState}`);
-    const playBackEle = this.containerEle.getElementsByClassName('ecp-button-playback')[0];
-    switch (newState) {
-      case STATE_PLAYING:
-        addClass(playBackEle.children[0], 'ecp-icon-pause');
-        removeClass(playBackEle.children[0], 'ecp-icon-play');
-        break;
-      case STATE_PAUSED:
-        addClass(playBackEle.children[0], 'ecp-icon-play');
-        removeClass(playBackEle.children[0], 'ecp-icon-pause');
-        break;
-      default:
-        break;
-    }
   }
 
   handleTimeUpdate({ duration, currentPlaybackTime }) {
@@ -121,17 +108,9 @@ class View {
   }
   handleClickFullscreen() {
     const newState = !this.core.getFullscreen();
-    const fullscreenEle = this.containerEle.getElementsByClassName('ecp-button-fullscreen')[0];
+    // const fullscreenEle = this.containerEle.getElementsByClassName('ecp-button-fullscreen')[0];
 
     this.core.setFullscreen(newState);
-
-    if (newState) {
-      fullscreenEle.children[0].classList.add('ecp-icon-fullscreen-exit');
-      fullscreenEle.children[0].classList.remove('ecp-icon-fullscreen');
-    } else {
-      fullscreenEle.children[0].classList.add('ecp-icon-fullscreen');
-      fullscreenEle.children[0].classList.remove('ecp-icon-fullscreen-exit');
-    }
   }
 
   handleClickSetting(e) {

@@ -92,80 +92,81 @@ $control-bar-height: 36px;
       color: #fff;
     }
   }
-
-  .ecp-left-controls {
-    float: left;
+}
+.ecp-left-controls {
+  float: left;
+  height: 100%;
+  
+  & > * {
+    display: inline-block;
     height: 100%;
-    
-    & > * {
+    vertical-align: top;
+  }
+}
+
+
+.ecp-button-live {
+  cursor: default;
+  .ecp-live-title {
+    font-weight: 500;
+    padding-left:10px;
+    position: relative;
+    &:before {
+      content: '';
       display: inline-block;
-      height: 100%;
-      vertical-align: top;
-    }
-  }
-
-  .ecp-button-live {
-    cursor: default;
-    .ecp-live-title {
-      font-weight: 500;
-      padding-left:10px;
-      position: relative;
-      &:before {
-        content: '';
-        display: inline-block;
-        height: 5px;
-        width: 5px;
-        margin-right: 5px;
-        border-radius: 50%;
-        background-color: red;
-        position: absolute;
-        top: 50%;
-        left: 0px;
-        transform: translateY(-50%);
-      }
-    }
-  }
-  .ecp-time-bar {
-    [class^="ecp-time-"] {
-      line-height: $control-bar-height;
-      display: none;
-    }
-  }
-
-  .ecp-right-controls {
-    float: right;
-    height: 100%;
-  }
-
-  .ecp-button-settings {
-    transition: transform 300ms;
-    &.is-shown {
-      transform: rotate(90deg);
-    }
-    &.is-shown + .ecp-video-tracks {
-      display: block;
-    }
-  }
-
-  .ecp-video-tracks {
-    display: none;
-    list-style: none;
-    padding: 5px;
-    margin: 0;
-    position: absolute;
-    bottom: $control-bar-height;
-    width: 100px;
-    right: 0;
-    background-color: rgba(0, 0, 0, 0.5);
-    text-align: center;
-    .ecp-resolution {
-      color: #fff;
-      &:hover {
-        cursor: pointer;
-      }
+      height: 5px;
+      width: 5px;
+      margin-right: 5px;
+      border-radius: 50%;
+      background-color: red;
+      position: absolute;
+      top: 50%;
+      left: 0px;
+      transform: translateY(-50%);
     }
   }
 }
+.ecp-time-bar {
+  [class^="ecp-time-"] {
+    line-height: $control-bar-height;
+    display: none;
+  }
+}
+
+.ecp-right-controls {
+  float: right;
+  height: 100%;
+}
+
+.ecp-button-settings {
+  transition: transform 300ms;
+  &.is-shown {
+    transform: rotate(90deg);
+  }
+  &.is-shown + .ecp-video-tracks {
+    display: block;
+  }
+}
+
+.ecp-video-tracks {
+  display: none;
+  list-style: none;
+  padding: 5px;
+  margin: 0;
+  position: absolute;
+  bottom: $control-bar-height;
+  width: 100px;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  text-align: center;
+  .ecp-resolution {
+    color: #fff;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}
+
 
 .ecp-time-elapsed,
 .ecp-time-duration {

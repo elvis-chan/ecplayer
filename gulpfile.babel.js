@@ -17,7 +17,7 @@ gulp.task('watch', () => {
   gulp.watch('src/js/**/*.js', ['lint']);
   gulp.watch('src/scss/**/*.scss', ['style']);
   gulp.watch('src/images/**/*', ['image']);
-  gulp.watch('src/fonts/**/*', ['font']);
+  gulp.watch('src/fonts/**/*.css', ['font']);
 });
 
 gulp.task('build', (done) => {
