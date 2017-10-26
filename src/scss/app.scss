@@ -104,6 +104,27 @@ $control-bar-height: 36px;
     }
   }
 
+  .ecp-button-live {
+    cursor: default;
+    .ecp-live-title {
+      font-weight: 500;
+      padding-left:10px;
+      position: relative;
+      &:before {
+        content: '';
+        display: inline-block;
+        height: 5px;
+        width: 5px;
+        margin-right: 5px;
+        border-radius: 50%;
+        background-color: red;
+        position: absolute;
+        top: 50%;
+        left: 0px;
+        transform: translateY(-50%);
+      }
+    }
+  }
   .ecp-time-bar {
     [class^="ecp-time-"] {
       line-height: $control-bar-height;
