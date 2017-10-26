@@ -1,10 +1,7 @@
 @import './slider/style';
+@import '../fonts/ecplayer/icons.css';
 
 $control-bar-height: 36px;
-* {
-  // outline:none !important;
-  transition: transform 0.3s;
-}
 
 .ecplayer {
   position: relative;
@@ -122,7 +119,9 @@ $control-bar-height: 36px;
     i {
       vertical-align: middle;
     }
-
+    .ecp-button-settings {
+      transition: transform 300ms;
+    }
     .ecp-video-tracks {
       display: none;
       list-style: none;
