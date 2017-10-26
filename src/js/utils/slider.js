@@ -116,7 +116,6 @@ class Slider {
   static mouseUpControlBar() {
     this.controlBar.removeEventListener('mousemove', this.mouseMoveControlBar);
     this.controlBar.removeEventListener('mouseup', this.mouseUpControlBar);
-    // this.constructor.hideSliderBar.bind(this)();
   }
 
   static hideSliderBar() {
@@ -125,12 +124,14 @@ class Slider {
     this.sliderBarHidden = true;
   }
   static mouseLeaveControlBar() {
-    // console.log('simulate mouse up');
-    // const event = new MouseEvent('mouseup', {
-    //   bubbles: true,
-    //   cancelable: true,
-    // });
-    // this.controlBar.dispatchEvent(event);
+    /*
+    console.log('simulate mouse up');
+    const event = new MouseEvent('mouseup', {
+      bubbles: true,
+      cancelable: true,
+    });
+    this.controlBar.dispatchEvent(event);
+    */
     console.log('mouseleave control bar');
     this.controlBar.removeEventListener('mousemove', this.mouseMoveControlBar);
     this.controlBar.removeEventListener('mouseup', this.mouseUpControlBar);
@@ -139,20 +140,15 @@ class Slider {
   }
 
   setSliderPositionOnEvent(e) {
-    // console.log('calling setslider');
     const pointerW = this.pointer.offsetWidth;
-    // const sliderBarW = this.sliderBar.offsetWidth;
-    // const sliderBarW = 100;
     const actualW = this.sliderBarW - pointerW;
     const leftOffset = this.sliderBar.getBoundingClientRect().left;
     const xPosition = e.clientX;
     let borderOffset = xPosition - leftOffset;
-    // console.log(borderOffset);
     if (borderOffset <= 0) {
       borderOffset = 0;
       this.view.core.setMute(true);
     } else if (borderOffset > 0 && borderOffset < actualW) {
-      // borderOffset = borderOffset;
       this.view.core.setMute(false);
     } else if (borderOffset >= actualW) {
       this.view.core.setMute(false);
@@ -163,7 +159,6 @@ class Slider {
   }
 
   setSliderPosition(value) {
-    // const actualW = this.sliderBar.offsetWidth - this.pointer.offsetWidth;
     const actualW = this.sliderBarW - this.pointer.offsetWidth;
     if (value <= 0) {
       this.filledContent.style.borderLeftWidth = '0';
@@ -172,7 +167,6 @@ class Slider {
     } else if (value >= 1) {
       this.filledContent.style.borderLeftWidth = `${actualW}px`;
     }
-    // this.view.core.setVolume(value * 100);
   }
 }
 

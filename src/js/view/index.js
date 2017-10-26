@@ -38,13 +38,11 @@ class View {
   init() {
     this.attachListeners();
 
-    /* added by Jerry */
     const sliderEle = this.containerEle.getElementsByClassName('ecp-volume-slider')[0];
     const volBtn = this.containerEle.getElementsByClassName('ecp-button-mute')[0];
     this.volSlider = new Slider(this, sliderEle, volBtn);
     this.volSlider.setup();
     this.checkAutoPlay();
-    /* added by End */
 
     _.each([STATE_BUFFERING, STATE_PLAYING, STATE_PAUSED], (event) => {
       this.core.on(event, this.handleStateChange.bind(this));
@@ -52,28 +50,20 @@ class View {
 
     this.core.on(MEDIA_TIME, this.handleTimeUpdate.bind(this));
     this.core.on(FULLSCREEN, this.handleFullscreenChange.bind(this));
-    /* Added by Jerry */
-    // this.core.on(MUTE, this.handleMuteChange.bind(this));
-    /* Added by Jerry End */
   }
 
   attachListeners() {
     const playbackEle = this.containerEle.getElementsByClassName('ecp-button-playback')[0];
-    // const muteEle = this.containerEle.getElementsByClassName('ecp-button-mute')[0]; //  By [J]
-    // const volumeSliderEle = this.containerEle.getElementsByClassName('ecp-volume-slider')[0]; // By [J]
     const fullscreenEle = this.containerEle.getElementsByClassName('ecp-button-fullscreen')[0];
     const settingBtn = this.containerEle.getElementsByClassName('ecp-button-settings')[0];
     const videoTracks = this.containerEle.getElementsByClassName('ecp-video-tracks')[0];
 
     playbackEle.addEventListener('click', this.handleClickPlayback.bind(this));
-    // muteEle.addEventListener('click', this.handleClickMute.bind(this)); //  By [J]
-    // volumeSliderEle.addEventListener('change', this.handleChangeVolumeSlider.bind(this)); // By [J]
     fullscreenEle.addEventListener('click', this.handleClickFullscreen.bind(this));
     settingBtn.addEventListener('click', this.handleClickSetting.bind(this));
     videoTracks.addEventListener('click', this.handleClickVideoTracks.bind(this));
   }
 
-  /* Added by Jerry */
   checkAutoPlay() {
     const playBtn = this.containerEle.getElementsByClassName('ecp-button-playback')[0];
     if (this.mediaEle.autoplay) {
@@ -84,7 +74,6 @@ class View {
       removeClass(playBtn.children[0], 'ecp-icon-pause');
     }
   }
-  /* Added by Jerry End */
 
   handleStateChange({ newState }) {
     replaceClass(this.containerEle, /ecp-state-([a-z]*)/, `ecp-state-${newState}`);
@@ -119,36 +108,16 @@ class View {
     }
   }
 
-  /* added by Jerry */
-  // handleMuteChange({ state }) {
-  //   console.log('calling handleMuteChange');
-  //   if (state) {
-  //     addClass(this.containerEle, 'ecp-is-muted');
-  //   } else {
-  //     removeClass(this.containerEle, 'ecp-is-muted');
-  //   }
-  // }
-  /* added by Jerry End */
 
   handleClickPlayback() {
     this.core.togglePlayback();
   }
 
-  //  By [J]
-  // handleClickMute() {
-  //   const newState = !this.core.getMute();
-
-  //   this.core.setMute(newState);
-  // }
-  // By [J] End
-
-  // By [J]
   handleChangeVolumeSlider({ target }) {
     const volume = parseInt(target.value, 10);
 
     this.core.setVolume(volume);
   }
-  // By [J] End
   handleClickFullscreen() {
     const newState = !this.core.getFullscreen();
     const fullscreenBtn = this.containerEle.getElementsByClassName('ecp-button-fullscreen')[0];
