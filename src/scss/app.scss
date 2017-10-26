@@ -139,6 +139,12 @@ $control-bar-height: 36px;
 
   .ecp-button-settings {
     transition: transform 300ms;
+    &.is-shown {
+      transform: rotate(90deg);
+    }
+    &.is-shown + .ecp-video-tracks {
+      display: block;
+    }
   }
 
   .ecp-video-tracks {
@@ -152,9 +158,6 @@ $control-bar-height: 36px;
     right: 0;
     background-color: rgba(0, 0, 0, 0.5);
     text-align: center;
-    &.shown {
-      display: block;
-    }
     .ecp-resolution {
       color: #fff;
       &:hover {

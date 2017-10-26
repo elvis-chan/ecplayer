@@ -136,23 +136,15 @@ class View {
 
   handleClickSetting(e) {
     e.preventDefault();
-    const settingPanel = this.containerEle.getElementsByClassName('ecp-video-tracks')[0];
     const settingsIcon = this.containerEle.getElementsByClassName('ecp-button-settings')[0];
-    toggleClass(settingPanel, 'shown');
-    if (hasClass(settingPanel, 'shown')) {
-      settingsIcon.style.transform = 'rotate(90deg) translatez(0)';
-    } else {
-      settingsIcon.style.transform = 'rotate(0)';
-    }
+    toggleClass(settingsIcon, 'is-shown');
   }
 
   handleClickVideoTracks(e) {
     e.preventDefault();
     if (e.target.matches('.ecp-resolution')) {
-      const settingPanel = this.containerEle.getElementsByClassName('ecp-video-tracks')[0];
       const settingsIcon = this.containerEle.getElementsByClassName('ecp-button-settings')[0];
-      toggleClass(settingPanel, 'shown');
-      settingsIcon.style.transform = 'rotate(0)';
+      toggleClass(settingsIcon, 'is-shown');
     }
   }
 }
