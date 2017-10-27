@@ -4,7 +4,6 @@ import { addClass, removeClass } from 'utils/dom';
 class VolumeSlider {
   constructor(view, sliderEle, controlEle) {
     /* eslint-disable */
-    console.log(view);
     this.view = view;
     this.slider = sliderEle;
     this.controlEle = controlEle;

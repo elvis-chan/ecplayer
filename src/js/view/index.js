@@ -1,10 +1,10 @@
 import * as _ from 'underscore';
 
-import { replaceWith, addClass, removeClass, replaceClass, toggleClass } from 'utils/dom';
+import { replaceWith, addClass, removeClass, replaceClass, toggleClass, createElement } from 'utils/dom';
 import { toHumanReadable } from 'utils/strings';
 // import VolumeSlider from 'utils/volumeSlider';
 import VolumeSlider from 'view/volumeSlider';
-import { STATE_BUFFERING, STATE_PLAYING, STATE_PAUSED, MEDIA_TIME, FULLSCREEN } from 'app/events';
+import { STATE_BUFFERING, STATE_PLAYING, STATE_PAUSED, MEDIA_TIME, FULLSCREEN, QUALITIES } from 'app/events';
 import getMediaElement from 'api/getMediaElement';
 import playerTemplate from 'templates/player.html';
 
@@ -51,6 +51,7 @@ class View {
 
     this.core.on(MEDIA_TIME, this.handleTimeUpdate.bind(this));
     this.core.on(FULLSCREEN, this.handleFullscreenChange.bind(this));
+    this.core.on(QUALITIES, this.handleQualitiesLevelUpdate.bind(this)); // Added by Jerry
   }
 
   attachListeners() {
@@ -94,6 +95,18 @@ class View {
     } else {
       removeClass(this.containerEle, 'ecp-is-fullscreen');
     }
+  }
+
+  // added by [J]
+  handleQualitiesLevelUpdate() {
+    const videoTracks = this.containerEle.getElementsByClassName('ecp-video-tracks')[0];
+    const qualityLabel = _.map(
+      this.core.provider.outputQualityLevels,
+      level => createElement(`<li class='ecp-resolution'>${level.label}</li>`),
+    );
+    _.each(qualityLabel, (label) => {
+      videoTracks.appendChild(label);
+    });
   }
 
 

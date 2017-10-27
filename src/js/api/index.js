@@ -6,7 +6,6 @@ let createdInstance = 0;
 const Api = function Api(ele) {
   createdInstance += 1;
 
-  // uniqueId will be started at 1
   const uniqueId = createdInstance;
   const playerId = ele.id;
 

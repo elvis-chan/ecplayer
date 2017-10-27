@@ -85,10 +85,8 @@ class Core {
 
     providers.load([type]).then(() => {
       this.provider = providers.choose(type);
-
       this.options.containerEle = this.getContainer();
       this.options.mediaEle = getMediaElement(this.containerEle); // get the video element
-
       this.provider.setup(this.options);
       this.view.init();
       this.api.trigger('ready');

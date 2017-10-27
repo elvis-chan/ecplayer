@@ -1,6 +1,6 @@
 import * as _ from 'underscore';
 
-import { MEDIA_LEVEL_CHANGED } from 'app/events';
+import { MEDIA_LEVEL_CHANGED, QUALITIES } from 'app/events'; /* Added by [J] */
 import DefaultProvider from './DefaultProvider';
 
 class HlsProvider extends DefaultProvider {
@@ -50,6 +50,7 @@ class HlsProvider extends DefaultProvider {
       height: qualityLevel.height,
       label: `${qualityLevel.height}p`,
     }));
+    this.core.trigger(QUALITIES); /* Added by [J] */
 
     this.handleBuffering();
   }

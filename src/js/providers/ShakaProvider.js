@@ -1,6 +1,6 @@
 import * as _ from 'underscore';
 
-import { STATE_BUFFERING } from 'app/events';
+import { STATE_BUFFERING, QUALITIES } from 'app/events'; /* Added by [J] */
 import DefaultProvider from './DefaultProvider';
 
 class ShakaProvider extends DefaultProvider {
@@ -13,7 +13,6 @@ class ShakaProvider extends DefaultProvider {
 
   setup(options) {
     super.setup(options);
-
     window.shaka.polyfill.installAll();
 
     this.instance = new window.shaka.Player(this.mediaEle);
@@ -22,14 +21,13 @@ class ShakaProvider extends DefaultProvider {
 
   getQualityLevels() {
     this.qualityLevels = this.instance.getVariantTracks();
-
     this.outputQualityLevels = _.map(this.qualityLevels, qualityLevel => ({
       bitrate: qualityLevel.bandwidth,
       width: qualityLevel.width,
       height: qualityLevel.height,
       label: `${qualityLevel.height}p`,
     }));
-
+    this.core.trigger(QUALITIES); /* Added by [J] */
     return this.outputQualityLevels;
   }
 
