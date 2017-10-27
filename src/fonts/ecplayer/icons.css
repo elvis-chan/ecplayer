@@ -45,6 +45,12 @@
   content: "\e901";
 }
 
+.ecp-icon-volume:before {
+  content: "\e90b";
+}
+.ecp-is-muted .ecp-icon-volume:before {
+  content: "\e909";
+}
 
 /* Added by [J] */
 // .ecp-icon-fullscreen:before {
@@ -77,12 +83,12 @@
 .ecp-icon-settings:before {
   content: "\e908";
 }
-.ecp-icon-volume-0:before {
-  content: "\e909";
-}
+// .ecp-icon-volume-0:before {
+//   content: "\e909";
+// }
 .ecp-icon-volume-50:before {
   content: "\e90a";
 }
-.ecp-icon-volume-100:before {
-  content: "\e90b";
-}
+// .ecp-icon-volume-100:before {
+//   content: "\e90b";
+// }

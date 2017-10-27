@@ -31,19 +31,27 @@ class DefaultProvider {
       document.addEventListener(event, this.handleFullscreenChange.bind(this), false);
     });
 
-    if (this.options.autoplay) {
-      this.mediaEle.autoplay = true;
-    }
-
-    if (this.options.mute) {
-      this.mediaEle.muted = true;
-    }
-
     this.mediaEle.onloadedmetadata = this.handleOnLoadedMetadata.bind(this);
     this.mediaEle.onplay = this.handleOnPlay.bind(this);
     this.mediaEle.onpause = this.handleOnPause.bind(this);
     this.mediaEle.ontimeupdate = this.handleOnTimeUpdate.bind(this);
     this.mediaEle.onvolumechange = this.handleOnVolumeChange.bind(this);
+
+    if (this.options.autoplay) {
+      this.mediaEle.autoplay = true;
+    }
+
+    if (this.options.mute) {
+      // this.mediaEle.muted = true;
+      setTimeout(() => {
+        this.mediaEle.muted = true;
+      }, 0);
+    } else {
+      setTimeout(() => {
+        this.mediaEle.muted = true;
+        this.mediaEle.muted = false;
+      }, 0);
+    }
   }
 
   getState() {

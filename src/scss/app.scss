@@ -106,7 +106,7 @@ $control-bar-height: 36px;
 
 
 .ecp-button-live {
-  cursor: default;
+  cursor: default !important;
   .ecp-live-title {
     font-weight: 500;
     padding-left:10px;

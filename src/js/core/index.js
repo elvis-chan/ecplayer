@@ -39,7 +39,6 @@ class Core {
   view = null;
 
   setup({ container, api }) {
-    
     this.api = api;
     this.view = new View(this);
 

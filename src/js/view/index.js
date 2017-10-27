@@ -1,6 +1,6 @@
 import * as _ from 'underscore';
 
-import { replaceWith, addClass, removeClass, replaceClass, toggleClass, hasClass } from 'utils/dom';
+import { replaceWith, addClass, removeClass, replaceClass, toggleClass } from 'utils/dom';
 import { toHumanReadable } from 'utils/strings';
 // import VolumeSlider from 'utils/volumeSlider';
 import VolumeSlider from 'view/volumeSlider';

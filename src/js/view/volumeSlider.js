@@ -20,34 +20,20 @@ class VolumeSlider {
   setup() {
     this.view.core.on(MUTE, this.handleOnVolChange.bind(this));
     this.attachEventListener.bind(this)();
-
-    const muteState = this.view.core.getMute();
-
-    if (muteState) {
-      this.setSliderPosition(0);
-      addClass(this.controlEle.children[0], 'ecp-icon-volume-0');
-      removeClass(this.controlEle.children[0], 'ecp-icon-volume-100');
-    } else {
-      addClass(this.controlEle.children[0], 'ecp-icon-volume-100');
-      removeClass(this.controlEle.children[0], 'ecp-icon-volume-0');
-      const vol = this.view.core.getVolume();
-      this.setSliderPosition(vol);
-    }
   }
 
   handleOnVolChange({ state }) {
-    const muteEle = this.view.containerEle.getElementsByClassName('ecp-button-mute')[0];
     if (typeof state !== 'number') {
-      addClass(muteEle.children[0], 'ecp-icon-volume-0');
-      removeClass(muteEle.children[0], 'ecp-icon-volume-100');
+      addClass(this.view.containerEle, 'ecp-is-muted');
+      this.setSliderPosition(0);
     } else {
       /* eslint-disable */
       if (state === 0) {
-        addClass(muteEle.children[0], 'ecp-icon-volume-0');
-        removeClass(muteEle.children[0], 'ecp-icon-volume-100');
-      } else {
-        addClass(muteEle.children[0], 'ecp-icon-volume-100');
-        removeClass(muteEle.children[0], 'ecp-icon-volume-0');
+        this.setSliderPosition(0.5);
+        this.view.core.setVolume(50);
+      } else if (state > 0) {
+        removeClass(this.view.containerEle, 'ecp-is-muted');
+        this.setSliderPosition(state);
       }
       /* eslint-enable */
     }
@@ -95,17 +81,6 @@ class VolumeSlider {
     e.preventDefault();
     const newMuteState = !this.view.core.getMute();
     this.view.core.setMute(newMuteState);
-    if (newMuteState) {
-      this.setSliderPosition(0);
-    } else {
-      const vol = this.view.core.getVolume();
-      if (vol === 0) {
-        this.setSliderPosition(0.5);
-        this.view.core.setVolume(50);
-      } else {
-        this.setSliderPosition(vol);
-      }
-    }
   }
 
   static mouseMoveControlBar(e) {
