@@ -6,7 +6,6 @@ import instances from 'app/instances';
 import Api from './api';
 
 scriptLoader.load('ecplayer.css');
-
 const getInstanceById = (id) => {
   for (let i = 0; i < instances.length; i += 1) {
     if (id === instances[i].id) {

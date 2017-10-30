@@ -15,3 +15,5 @@ export const MEDIA_TIME = 'time';
 export const MEDIA_LEVEL_CHANGED = 'levelChanged';
 
 export const FULLSCREEN = 'fullscreen';
+
+export const MUTE = 'mute';

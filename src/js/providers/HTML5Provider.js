@@ -17,14 +17,6 @@ class HTML5Provider extends DefaultProvider {
     super.setup(options);
 
     this.mediaEle.src = options.file;
-
-    if (options.autoplay) {
-      this.mediaEle.autoplay = true;
-    }
-
-    if (options.mute) {
-      this.mediaEle.muted = true;
-    }
   }
 }
 

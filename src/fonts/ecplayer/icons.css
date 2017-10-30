@@ -1,0 +1,94 @@
+@font-face {
+  font-family: 'ecplayer';
+  src:  url('fonts/ecplayer.eot?31d8ss');
+  src:  url('fonts/ecplayer.eot?31d8ss#iefix') format('embedded-opentype'),
+    url('fonts/ecplayer.ttf?31d8ss') format('truetype'),
+    url('fonts/ecplayer.woff?31d8ss') format('woff'),
+    url('fonts/ecplayer.svg?31d8ss#ecplayer') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class^="ecp-icon-"], [class*=" ecp-icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'ecplayer' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  color: #e5e5e5;
+  font-size: 17px;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Added by [J] */
+.ecp-icon-playback:before {
+  content: "\e906";
+}
+.ecp-state-playing .ecp-icon-playback:before,
+.ecp-state-buffering .ecp-icon-playback:before {
+  content: "\e906";
+}
+.ecp-state-paused .ecp-icon-playback:before {
+  content: "\e907";
+} 
+
+.ecp-icon-fullscreen:before {
+  content: "\e900";
+}
+.ecp-is-fullscreen .ecp-icon-fullscreen:before {
+  content: "\e901";
+}
+
+.ecp-icon-volume:before {
+  content: "\e90b";
+}
+.ecp-is-muted .ecp-icon-volume:before {
+  content: "\e909";
+}
+
+/* Added by [J] */
+// .ecp-icon-fullscreen:before {
+//   content: "\e900";
+// }
+// .ecp-icon-fullscreen-exit:before {
+//   content: "\e901";
+// }
+.ecp-icon-live:before {
+  content: "\e902";
+}
+.ecp-icon-live-red .path1:before {
+  content: "\e903";
+  color: rgb(235, 26, 26);
+}
+.ecp-icon-live-red .path2:before {
+  content: "\e904";
+  margin-left: -1.5em;
+  color: rgb(0, 0, 0);
+}
+.ecp-icon-next:before {
+  content: "\e905";
+}
+// .ecp-icon-pause:before {
+//   content: "\e906";
+// }
+// .ecp-icon-play:before {
+//   content: "\e907";
+// }
+.ecp-icon-settings:before {
+  content: "\e908";
+}
+// .ecp-icon-volume-0:before {
+//   content: "\e909";
+// }
+.ecp-icon-volume-50:before {
+  content: "\e90a";
+}
+// .ecp-icon-volume-100:before {
+//   content: "\e90b";
+// }

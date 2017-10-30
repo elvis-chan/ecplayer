@@ -43,7 +43,6 @@ class Core {
     this.view = new View(this);
 
     this.view.setup({ id: container.id });
-
     this.containerEle = document.getElementById(container.id);
   }
 
@@ -88,7 +87,7 @@ class Core {
       this.provider = providers.choose(type);
 
       this.options.containerEle = this.getContainer();
-      this.options.mediaEle = getMediaElement(this.containerEle);
+      this.options.mediaEle = getMediaElement(this.containerEle); // get the video element
 
       this.provider.setup(this.options);
       this.view.init();

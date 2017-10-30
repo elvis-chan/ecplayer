@@ -14,14 +14,6 @@ class ShakaProvider extends DefaultProvider {
   setup(options) {
     super.setup(options);
 
-    if (options.autoplay) {
-      this.mediaEle.autoplay = true;
-    }
-
-    if (options.mute) {
-      this.mediaEle.muted = true;
-    }
-
     window.shaka.polyfill.installAll();
 
     this.instance = new window.shaka.Player(this.mediaEle);

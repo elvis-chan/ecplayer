@@ -1,7 +1,9 @@
 import * as _ from 'underscore';
 
-import { replaceWith, addClass, removeClass, replaceClass } from 'utils/dom';
+import { replaceWith, addClass, removeClass, replaceClass, toggleClass } from 'utils/dom';
 import { toHumanReadable } from 'utils/strings';
+// import VolumeSlider from 'utils/volumeSlider';
+import VolumeSlider from 'view/volumeSlider';
 import { STATE_BUFFERING, STATE_PLAYING, STATE_PAUSED, MEDIA_TIME, FULLSCREEN } from 'app/events';
 import getMediaElement from 'api/getMediaElement';
 import playerTemplate from 'templates/player.html';
@@ -18,7 +20,6 @@ class View {
   setup({ id }) {
     this.playerId = id;
     this.containerEle = document.getElementById(this.playerId);
-
     this.transform();
 
     return this;
@@ -38,6 +39,12 @@ class View {
   init() {
     this.attachListeners();
 
+    const sliderEle = this.containerEle.getElementsByClassName('ecp-volume-slider')[0];
+    const muteEle = this.containerEle.getElementsByClassName('ecp-button-mute')[0];
+    this.volumeSlider = new VolumeSlider(this, sliderEle, muteEle);
+    this.volumeSlider.setup();
+    // this.checkAutoPlay();
+
     _.each([STATE_BUFFERING, STATE_PLAYING, STATE_PAUSED], (event) => {
       this.core.on(event, this.handleStateChange.bind(this));
     });
@@ -48,14 +55,25 @@ class View {
 
   attachListeners() {
     const playbackEle = this.containerEle.getElementsByClassName('ecp-button-playback')[0];
-    const muteEle = this.containerEle.getElementsByClassName('ecp-button-mute')[0];
-    const volumeSliderEle = this.containerEle.getElementsByClassName('ecp-volume-slider')[0];
     const fullscreenEle = this.containerEle.getElementsByClassName('ecp-button-fullscreen')[0];
+    const settingEle = this.containerEle.getElementsByClassName('ecp-button-settings')[0];
+    const videoTracks = this.containerEle.getElementsByClassName('ecp-video-tracks')[0];
 
     playbackEle.addEventListener('click', this.handleClickPlayback.bind(this));
-    muteEle.addEventListener('click', this.handleClickMute.bind(this));
-    volumeSliderEle.addEventListener('change', this.handleChangeVolumeSlider.bind(this));
     fullscreenEle.addEventListener('click', this.handleClickFullscreen.bind(this));
+    settingEle.addEventListener('click', this.handleClickSetting.bind(this));
+    videoTracks.addEventListener('click', this.handleClickVideoTracks.bind(this));
+  }
+
+  checkAutoPlay() {
+    const playBackEle = this.containerEle.getElementsByClassName('ecp-button-playback')[0];
+    if (this.mediaEle.autoplay) {
+      addClass(playBackEle.children[0], 'ecp-icon-pause');
+      removeClass(playBackEle.children[0], 'ecp-icon-play');
+    } else {
+      addClass(playBackEle.children[0], 'ecp-icon-play');
+      removeClass(playBackEle.children[0], 'ecp-icon-pause');
+    }
   }
 
   handleStateChange({ newState }) {
@@ -78,14 +96,9 @@ class View {
     }
   }
 
+
   handleClickPlayback() {
     this.core.togglePlayback();
-  }
-
-  handleClickMute() {
-    const newState = !this.core.getMute();
-
-    this.core.setMute(newState);
   }
 
   handleChangeVolumeSlider({ target }) {
@@ -93,11 +106,25 @@ class View {
 
     this.core.setVolume(volume);
   }
-
   handleClickFullscreen() {
     const newState = !this.core.getFullscreen();
+    // const fullscreenEle = this.containerEle.getElementsByClassName('ecp-button-fullscreen')[0];
 
     this.core.setFullscreen(newState);
+  }
+
+  handleClickSetting(e) {
+    e.preventDefault();
+    const settingsIcon = this.containerEle.getElementsByClassName('ecp-button-settings')[0];
+    toggleClass(settingsIcon, 'is-shown');
+  }
+
+  handleClickVideoTracks(e) {
+    e.preventDefault();
+    if (e.target.matches('.ecp-resolution')) {
+      const settingsIcon = this.containerEle.getElementsByClassName('ecp-button-settings')[0];
+      toggleClass(settingsIcon, 'is-shown');
+    }
   }
 }
 
