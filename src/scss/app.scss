@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+
 .ecplayer {
   position: relative;
   width: 100%;
@@ -72,5 +74,6 @@
 .ecp-time-elapsed,
 .ecp-time-duration {
   font-size: 14px;
+  font-family: 'Roboto';
   color: #fff;
 }
