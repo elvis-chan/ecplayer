@@ -32,6 +32,7 @@ class DefaultProvider {
     });
 
     this.mediaEle.onloadedmetadata = this.handleOnLoadedMetadata.bind(this);
+    this.mediaEle.oncanplay = this.handleOnCanPlay.bind(this);
     this.mediaEle.onplay = this.handleOnPlay.bind(this);
     this.mediaEle.onpause = this.handleOnPause.bind(this);
     this.mediaEle.ontimeupdate = this.handleOnTimeUpdate.bind(this);
@@ -131,6 +132,10 @@ class DefaultProvider {
     const data = { duration: this.getDuration(), currentPlaybackTime: this.getPosition() };
 
     this.core.trigger(MEDIA_TIME, data);
+  }
+
+  handleOnCanPlay() {
+    this.setState(STATE_IDLE);
   }
 
   handleBuffering() {

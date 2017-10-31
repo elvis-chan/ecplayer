@@ -1,5 +1,7 @@
-@import './VolumeSlider/style';
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+
 @import '../fonts/ecplayer/icons.css';
+@import './VolumeSlider/style';
 
 $control-bar-height: 36px;
 
@@ -171,5 +173,6 @@ $control-bar-height: 36px;
 .ecp-time-elapsed,
 .ecp-time-duration {
   font-size: 14px;
+  font-family: 'Roboto';
   color: #fff;
 }
