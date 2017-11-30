@@ -27,7 +27,7 @@ class ShakaProvider extends DefaultProvider {
       height: qualityLevel.height,
       label: `${qualityLevel.height}p`,
     }));
-    this.core.trigger(QUALITIES); /* Added by [J] */
+    // this.core.trigger(QUALITIES); /* Added by [J] */
     return this.outputQualityLevels;
   }
 
@@ -50,7 +50,7 @@ class ShakaProvider extends DefaultProvider {
 
   handleLoadedManifest() {
     this.getQualityLevels();
-
+    this.core.trigger(QUALITIES);
     this.audioTracks = this.instance.getAudioLanguages();
 
     this.instance.addEventListener('buffering', this.handleBuffering.bind(this));

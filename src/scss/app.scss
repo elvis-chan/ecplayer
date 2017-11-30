@@ -1,7 +1,8 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto');
 
 @import '../fonts/ecplayer/icons.css';
-@import './VolumeSlider/style';
+@import './VolumeSlider/slider';
+@import './VolumeSlider/controlButtons';
 
 $control-bar-height: 36px;
 
