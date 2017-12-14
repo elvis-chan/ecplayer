@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'ecplayer';
-  src:  url('fonts/ecplayer.eot?31d8ss');
-  src:  url('fonts/ecplayer.eot?31d8ss#iefix') format('embedded-opentype'),
-    url('fonts/ecplayer.ttf?31d8ss') format('truetype'),
-    url('fonts/ecplayer.woff?31d8ss') format('woff'),
-    url('fonts/ecplayer.svg?31d8ss#ecplayer') format('svg');
+  src:  url('./fonts/ecplayer.eot?31d8ss');
+  src:  url('./fonts/ecplayer.eot?31d8ss#iefix') format('embedded-opentype'),
+    url('./fonts/ecplayer.ttf?31d8ss') format('truetype'),
+    url('./fonts/ecplayer.woff?31d8ss') format('woff'),
+    url('./fonts/ecplayer.svg?31d8ss#ecplayer') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -53,6 +53,7 @@
 }
 
 /* Added by [J] */
+
 // .ecp-icon-fullscreen:before {
 //   content: "\e900";
 // }
