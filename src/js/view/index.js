@@ -27,7 +27,6 @@ class View {
 
   transform() {
     const replaceContent = { id: this.playerId, content: playerTemplate };
-
     this.containerEle = replaceWith(this.containerEle, replaceContent);
     this.mediaEle = getMediaElement(this.containerEle);
 
@@ -51,7 +50,8 @@ class View {
 
     this.core.on(MEDIA_TIME, this.handleTimeUpdate.bind(this));
     this.core.on(FULLSCREEN, this.handleFullscreenChange.bind(this));
-    this.core.on(QUALITIES, this.handleQualitiesLevelUpdate.bind(this)); // Added by Jerry
+    this.core.on(QUALITIES, this.handleQualitiesReturned.bind(this)); // Added by Jerry
+    // this.core.on(MEDIA_LEVEL_CHANGED, this.handleQuelitiesLevelChanged.bind(this));
   }
 
   attachListeners() {
@@ -98,11 +98,12 @@ class View {
   }
 
   // added by [J]
-  handleQualitiesLevelUpdate() {
+  handleQualitiesReturned() {
+    const qualityLevels = this.core.getQualityLevels();
     const videoTracks = this.containerEle.getElementsByClassName('ecp-video-tracks')[0];
     const qualityLabel = _.map(
-      this.core.provider.outputQualityLevels,
-      level => createElement(`<li class='ecp-resolution'>${level.label}</li>`),
+      qualityLevels,
+      (level, index) => createElement(`<li class="ecp-resolution">${level.label}</li>`, index),
     );
     _.each(qualityLabel, (label) => {
       videoTracks.appendChild(label);
@@ -135,7 +136,9 @@ class View {
   handleClickVideoTracks(e) {
     e.preventDefault();
     if (e.target.matches('.ecp-resolution')) {
+      const qualityLevel = parseInt(e.target.id, 10);
       const settingsIcon = this.containerEle.getElementsByClassName('ecp-button-settings')[0];
+      this.core.setCurrentQuality(qualityLevel);
       toggleClass(settingsIcon, 'is-shown');
     }
   }
