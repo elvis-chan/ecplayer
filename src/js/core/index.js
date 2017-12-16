@@ -25,6 +25,7 @@ const API_COMMANDS = [
   'getQualityLevels',
   'getCurrentQuality',
   'setCurrentQuality',
+  'getCurrentQualityIndex',
 
   // volume related
   'getMute',

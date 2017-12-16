@@ -154,7 +154,7 @@ $control-bar-height: 36px;
 .ecp-video-tracks {
   display: none;
   list-style: none;
-  padding: 5px;
+  padding: 5px 0;
   margin: 0;
   position: absolute;
   bottom: $control-bar-height;
@@ -164,8 +164,12 @@ $control-bar-height: 36px;
   text-align: center;
   .ecp-resolution {
     color: #fff;
+    padding: 4px 0;
     &:hover {
       cursor: pointer;
+    }
+    &.is-selected {
+      background-color: rgba(33, 33, 33, .8);
     }
   }
 }

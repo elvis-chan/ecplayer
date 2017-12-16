@@ -32,10 +32,13 @@ class HlsProvider extends DefaultProvider {
   getCurrentQuality() {
     // const idx = _.findIndex(this.qualityLevels, qualityLevel =>
     //   qualityLevel.level === this.instance.currentLevel);
-
-    return this.instance.currentLevel;
-    // return this.outputQualityLevels[idx];
+    return this.outputQualityLevels[this.instance.currentLevel];
   }
+
+  getCurrentQualityIndex() {
+    return this.instance.currentLevel;
+  }
+
 
   setCurrentQuality(index) {
     this.instance.currentLevel = index;

@@ -1,6 +1,6 @@
 import * as _ from 'underscore';
 
-import { STATE_BUFFERING, QUALITIES } from 'app/events'; /* Added by [J] */
+import { STATE_BUFFERING, QUALITIES, CURRENT_LEVEL_CHANGE } from 'app/events'; /* Added by [J] */
 import DefaultProvider from './DefaultProvider';
 
 class ShakaProvider extends DefaultProvider {
@@ -38,12 +38,19 @@ class ShakaProvider extends DefaultProvider {
     return this.outputQualityLevels[idx];
   }
 
+  getCurrentQualityIndex() {
+    this.getQualityLevels();
+    const idx = _.findIndex(this.qualityLevels, qualityLevel => qualityLevel.active === true);
+    return idx;
+  }
+
   setCurrentQuality(index) {
     if (index === -1) {
       this.instance.configure({ abr: { enabled: true } });
     } else {
       this.instance.configure({ abr: { enabled: false } });
       this.instance.selectVariantTrack(this.qualityLevels[index], true);
+      this.core.trigger(CURRENT_LEVEL_CHANGE);
     }
   }
 
@@ -53,6 +60,7 @@ class ShakaProvider extends DefaultProvider {
     this.audioTracks = this.instance.getAudioLanguages();
 
     this.instance.addEventListener('buffering', this.handleBuffering.bind(this));
+    this.core.trigger(CURRENT_LEVEL_CHANGE);
   }
 
   handleBuffering({ buffering }) {
