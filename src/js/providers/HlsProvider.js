@@ -1,6 +1,6 @@
 import * as _ from 'underscore';
 
-import { MEDIA_LEVEL_CHANGED, QUALITIES } from 'app/events'; /* Added by [J] */
+import { MEDIA_LEVEL_CHANGED, QUALITIES, CURRENT_LEVEL_CHANGE } from 'app/events'; /* Added by [J] */
 import DefaultProvider from './DefaultProvider';
 
 class HlsProvider extends DefaultProvider {
@@ -30,21 +30,23 @@ class HlsProvider extends DefaultProvider {
   }
 
   getCurrentQuality() {
-    const idx = _.findIndex(this.qualityLevels, qualityLevel =>
-      qualityLevel.level === this.instance.currentLevel);
+    // const idx = _.findIndex(this.qualityLevels, qualityLevel =>
+    //   qualityLevel.level === this.instance.currentLevel);
 
-    return this.outputQualityLevels[idx];
+    return this.instance.currentLevel;
+    // return this.outputQualityLevels[idx];
   }
 
   setCurrentQuality(index) {
     this.instance.currentLevel = index;
   }
 
-  handleLoadedManifest(e, { levels, audioTracks }) {
-    this.qualityLevels = levels;
+  handleLoadedManifest(e, { audioTracks }) {
     this.audioTracks = audioTracks;
+    this.qualityLevels = this.instance.levels; // added by [J]
 
     this.outputQualityLevels = _.map(this.qualityLevels, qualityLevel => ({
+      player: 'HLS',
       bitrate: qualityLevel.bitrate,
       width: qualityLevel.width,
       height: qualityLevel.height,
@@ -56,7 +58,8 @@ class HlsProvider extends DefaultProvider {
   }
 
   handleSwitchedLevel(e, { level }) {
-    this.api.trigger(MEDIA_LEVEL_CHANGED, { currentQualityIndex: level });
+    this.api.trigger(MEDIA_LEVEL_CHANGED, { currentQualityLevel: level });
+    this.core.trigger(CURRENT_LEVEL_CHANGE);
   }
 
   handleUpdatedLevel(e, { details }) {

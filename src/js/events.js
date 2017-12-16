@@ -19,3 +19,5 @@ export const FULLSCREEN = 'fullscreen';
 export const MUTE = 'mute';
 
 export const QUALITIES = 'qualities';
+
+export const CURRENT_LEVEL_CHANGE = 'currentLevel';

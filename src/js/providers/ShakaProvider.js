@@ -22,18 +22,17 @@ class ShakaProvider extends DefaultProvider {
   getQualityLevels() {
     this.qualityLevels = this.instance.getVariantTracks();
     this.outputQualityLevels = _.map(this.qualityLevels, qualityLevel => ({
+      player: 'Shaka',
       bitrate: qualityLevel.bandwidth,
       width: qualityLevel.width,
       height: qualityLevel.height,
       label: `${qualityLevel.height}p`,
     }));
-
     return this.outputQualityLevels;
   }
 
   getCurrentQuality() {
     this.getQualityLevels();
-
     const idx = _.findIndex(this.qualityLevels, qualityLevel => qualityLevel.active === true);
 
     return this.outputQualityLevels[idx];

@@ -4,7 +4,7 @@ import { replaceWith, addClass, removeClass, replaceClass, toggleClass, createEl
 import { toHumanReadable } from 'utils/strings';
 // import VolumeSlider from 'utils/volumeSlider';
 import VolumeSlider from 'view/volumeSlider';
-import { STATE_BUFFERING, STATE_PLAYING, STATE_PAUSED, MEDIA_TIME, FULLSCREEN, QUALITIES } from 'app/events';
+import { STATE_BUFFERING, STATE_PLAYING, STATE_PAUSED, MEDIA_TIME, FULLSCREEN, QUALITIES, CURRENT_LEVEL_CHANGE } from 'app/events';
 import getMediaElement from 'api/getMediaElement';
 import playerTemplate from 'templates/player.html';
 
@@ -51,6 +51,7 @@ class View {
     this.core.on(MEDIA_TIME, this.handleTimeUpdate.bind(this));
     this.core.on(FULLSCREEN, this.handleFullscreenChange.bind(this));
     this.core.on(QUALITIES, this.handleQualitiesReturned.bind(this)); // Added by Jerry
+    this.core.on(CURRENT_LEVEL_CHANGE, this.handleCurrentLevelChange.bind(this));
     // this.core.on(MEDIA_LEVEL_CHANGED, this.handleQuelitiesLevelChanged.bind(this));
   }
 
@@ -108,6 +109,15 @@ class View {
     _.each(qualityLabel, (label) => {
       videoTracks.appendChild(label);
     });
+  }
+
+  handleCurrentLevelChange() {
+    const currentQuality = this.core.getCurrentQuality();
+    console.log('[View] Current Quality', currentQuality);
+    const currentTrack = this.containerEle.getElementsByClassName('ecp-resolution')[currentQuality + 1];
+    addClass(currentTrack, 'is-selected');
+
+    return this;
   }
 
 
