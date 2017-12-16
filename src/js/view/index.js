@@ -102,6 +102,11 @@ class View {
   handleQualitiesReturned() {
     const qualityLevels = this.core.getQualityLevels();
     const videoTracks = this.containerEle.getElementsByClassName('ecp-video-tracks')[0];
+    // videoTracks.innerHTML = '';
+    while (videoTracks.firstChild) {
+      videoTracks.removeChild(videoTracks.firstChild);
+    }
+    const autoQuality = createElement('<li class="ecp-resolution">Auto</li>', -1);
     const qualityLabels = _.map(
       qualityLevels,
       (level, index) => createElement(`<li class="${level.height} ecp-resolution">${level.label}</li>`, index),
@@ -110,6 +115,7 @@ class View {
       qualityLabels,
       label => -1 * parseInt(label.classList[0], 10),
     );
+    sortedQualityLabels.unshift(autoQuality);
     _.each(sortedQualityLabels, (label) => {
       videoTracks.appendChild(label);
     });
