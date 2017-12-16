@@ -4,7 +4,7 @@ import { replaceWith, addClass, removeClass, replaceClass, toggleClass, createEl
 import { toHumanReadable } from 'utils/strings';
 // import VolumeSlider from 'utils/volumeSlider';
 import VolumeSlider from 'view/volumeSlider';
-import { STATE_BUFFERING, STATE_PLAYING, STATE_PAUSED, MEDIA_TIME, FULLSCREEN, QUALITIES, CURRENT_LEVEL_CHANGE } from 'app/events';
+import { STATE_BUFFERING, STATE_PLAYING, STATE_PAUSED, MEDIA_TIME, FULLSCREEN, QUALITIES_RETURNED, CURRENT_LEVEL_CHANGE } from 'app/events';
 import getMediaElement from 'api/getMediaElement';
 import playerTemplate from 'templates/player.html';
 
@@ -50,7 +50,7 @@ class View {
 
     this.core.on(MEDIA_TIME, this.handleTimeUpdate.bind(this));
     this.core.on(FULLSCREEN, this.handleFullscreenChange.bind(this));
-    this.core.on(QUALITIES, this.handleQualitiesReturned.bind(this)); // Added by Jerry
+    this.core.on(QUALITIES_RETURNED, this.handleQualitiesReturned.bind(this)); // Added by Jerry
     this.core.on(CURRENT_LEVEL_CHANGE, this.handleCurrentLevelChange.bind(this));
     // this.core.on(MEDIA_LEVEL_CHANGED, this.handleQuelitiesLevelChanged.bind(this));
   }
@@ -102,20 +102,26 @@ class View {
   handleQualitiesReturned() {
     const qualityLevels = this.core.getQualityLevels();
     const videoTracks = this.containerEle.getElementsByClassName('ecp-video-tracks')[0];
-    const qualityLabel = _.map(
+    const qualityLabels = _.map(
       qualityLevels,
-      (level, index) => createElement(`<li class="ecp-resolution">${level.label}</li>`, index),
+      (level, index) => createElement(`<li class="${level.height} ecp-resolution">${level.label}</li>`, index),
     );
-    _.each(qualityLabel, (label) => {
+    const sortedQualityLabels = _.sortBy(
+      qualityLabels,
+      label => -1 * parseInt(label.classList[0], 10),
+    );
+    _.each(sortedQualityLabels, (label) => {
       videoTracks.appendChild(label);
     });
   }
 
   handleCurrentLevelChange() {
-    const currentQuality = this.core.getCurrentQuality();
-    console.log('[View] Current Quality', currentQuality);
-    const currentTrack = this.containerEle.getElementsByClassName('ecp-resolution')[currentQuality + 1];
-    addClass(currentTrack, 'is-selected');
+    const currentQualityIndex = this.core.getCurrentQualityIndex();
+    const videoResolutions = this.containerEle.getElementsByClassName('ecp-resolution');
+    // eslint-disable-next-line max-len
+    const currentResolution = _.find(videoResolutions, resolution => parseInt(resolution.id, 10) === currentQualityIndex);
+    _.forEach(videoResolutions, resolution => removeClass(resolution, 'is-selected'));
+    addClass(currentResolution, 'is-selected');
 
     return this;
   }

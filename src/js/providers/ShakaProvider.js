@@ -1,6 +1,6 @@
 import * as _ from 'underscore';
 
-import { STATE_BUFFERING, QUALITIES, CURRENT_LEVEL_CHANGE } from 'app/events'; /* Added by [J] */
+import { STATE_BUFFERING, QUALITIES_RETURNED, CURRENT_LEVEL_CHANGE } from 'app/events'; /* Added by [J] */
 import DefaultProvider from './DefaultProvider';
 
 class ShakaProvider extends DefaultProvider {
@@ -56,7 +56,7 @@ class ShakaProvider extends DefaultProvider {
 
   handleLoadedManifest() {
     this.getQualityLevels();
-    this.core.trigger(QUALITIES); /* Added by [J] */
+    this.core.trigger(QUALITIES_RETURNED); /* Added by [J] */
     this.audioTracks = this.instance.getAudioLanguages();
 
     this.instance.addEventListener('buffering', this.handleBuffering.bind(this));
