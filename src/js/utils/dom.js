@@ -21,7 +21,10 @@ export const createElement = (content, id = '') => {
   const newElement = document.createElement('div');
 
   newElement.innerHTML = content;
-  newElement.firstChild.setAttribute('id', id);
+
+  if (!_.isEmpty(id)) {
+    newElement.firstChild.setAttribute('id', id);
+  }
 
   return newElement.firstChild;
 };
@@ -78,5 +81,11 @@ export const replaceClass = (element, pattern, replacement) => {
     setClassName(element, classes);
   } else if (replacement) {
     addClass(element, replacement);
+  }
+};
+
+export const removeChild = (element) => {
+  while (element.firstChild) {
+    element.removeChild(element.firstChild);
   }
 };

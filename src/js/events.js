@@ -18,6 +18,6 @@ export const FULLSCREEN = 'fullscreen';
 
 export const MUTE = 'mute';
 
-export const QUALITIES_RETURNED = 'qualitiesReturned';
+export const QUALITIES_LOADED = 'qualitiesLoaded';
 
 export const CURRENT_LEVEL_CHANGE = 'currentLevel';
