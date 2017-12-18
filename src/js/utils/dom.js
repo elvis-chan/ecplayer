@@ -21,7 +21,10 @@ export const createElement = (content, id = '') => {
   const newElement = document.createElement('div');
 
   newElement.innerHTML = content;
-  newElement.firstChild.setAttribute('id', id);
+
+  if (!_.isEmpty(id)) {
+    newElement.firstChild.setAttribute('id', id);
+  }
 
   return newElement.firstChild;
 };
