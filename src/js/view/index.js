@@ -37,7 +37,6 @@ class View {
 
   init() {
     this.attachListeners();
-
     const sliderEle = this.containerEle.getElementsByClassName('ecp-volume-slider')[0];
     const muteEle = this.containerEle.getElementsByClassName('ecp-button-mute')[0];
     this.volumeSlider = new VolumeSlider(this, sliderEle, muteEle);
@@ -52,7 +51,6 @@ class View {
     this.core.on(FULLSCREEN, this.handleFullscreenChange.bind(this));
     this.core.on(QUALITIES_RETURNED, this.handleQualitiesReturned.bind(this)); // Added by Jerry
     this.core.on(CURRENT_LEVEL_CHANGE, this.handleCurrentLevelChange.bind(this));
-    // this.core.on(MEDIA_LEVEL_CHANGED, this.handleQuelitiesLevelChanged.bind(this));
   }
 
   attachListeners() {
@@ -102,7 +100,6 @@ class View {
   handleQualitiesReturned() {
     const qualityLevels = this.core.getQualityLevels();
     const videoTracks = this.containerEle.getElementsByClassName('ecp-video-tracks')[0];
-    // videoTracks.innerHTML = '';
     while (videoTracks.firstChild) {
       videoTracks.removeChild(videoTracks.firstChild);
     }
@@ -132,7 +129,6 @@ class View {
     return this;
   }
 
-
   handleClickPlayback() {
     this.core.togglePlayback();
   }
@@ -142,6 +138,7 @@ class View {
 
     this.core.setVolume(volume);
   }
+
   handleClickFullscreen() {
     const newState = !this.core.getFullscreen();
     // const fullscreenEle = this.containerEle.getElementsByClassName('ecp-button-fullscreen')[0];
