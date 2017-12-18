@@ -83,3 +83,9 @@ export const replaceClass = (element, pattern, replacement) => {
     addClass(element, replacement);
   }
 };
+
+export const removeChild = (element) => {
+  while (element.firstChild) {
+    element.removeChild(element.firstChild);
+  }
+};

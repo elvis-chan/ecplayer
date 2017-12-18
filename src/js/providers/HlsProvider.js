@@ -1,6 +1,6 @@
 import * as _ from 'underscore';
 
-import { MEDIA_LEVEL_CHANGED, QUALITIES_RETURNED, CURRENT_LEVEL_CHANGE } from 'app/events'; /* Added by [J] */
+import { MEDIA_LEVEL_CHANGED, QUALITIES_LOADED, CURRENT_LEVEL_CHANGE } from 'app/events'; /* Added by [J] */
 import DefaultProvider from './DefaultProvider';
 
 class HlsProvider extends DefaultProvider {
@@ -30,39 +30,44 @@ class HlsProvider extends DefaultProvider {
   }
 
   getCurrentQuality() {
-    // const idx = _.findIndex(this.qualityLevels, qualityLevel =>
-    //   qualityLevel.level === this.instance.currentLevel);
     return this.outputQualityLevels[this.instance.currentLevel];
   }
 
-  getCurrentQualityIndex() {
-    return this.instance.currentLevel;
-  }
-
-
   setCurrentQuality(index) {
-    this.instance.currentLevel = index;
+    const { width, height, bitrate } = this.outputQualityLevels[index];
+
+    const currentLevel = _.findIndex(this.qualityLevels, { width, height, bitrate });
+
+    this.instance.currentLevel = currentLevel;
+
+    this.core.trigger(CURRENT_LEVEL_CHANGE, { level: index });
   }
 
   handleLoadedManifest(e, { audioTracks }) {
+    this.loadLevel = -1;
     this.audioTracks = audioTracks;
-    this.qualityLevels = this.instance.levels; // added by [J]
+    this.qualityLevels = this.instance.levels;
 
-    this.outputQualityLevels = _.map(this.qualityLevels, qualityLevel => ({
-      player: 'HLS',
-      bitrate: qualityLevel.bitrate,
-      width: qualityLevel.width,
-      height: qualityLevel.height,
-      label: `${qualityLevel.height}p`,
-    }));
-    this.core.trigger(QUALITIES_RETURNED); /* Added by [J] */
+    this.outputQualityLevels = _.chain({ player: 'HLS', label: 'Auto' })
+      .concat(this.qualityLevels)
+      .sortBy('height')
+      .reverse()
+      .map(qualityLevel => ({
+        player: 'HLS',
+        bitrate: qualityLevel.bitrate,
+        width: qualityLevel.width,
+        height: qualityLevel.height,
+        label: qualityLevel.label || `${qualityLevel.height}p`,
+      }))
+      .value();
+
+    this.core.trigger(QUALITIES_LOADED);
 
     this.handleBuffering();
   }
 
   handleSwitchedLevel(e, { level }) {
     this.api.trigger(MEDIA_LEVEL_CHANGED, { currentQualityLevel: level });
-    this.core.trigger(CURRENT_LEVEL_CHANGE);
   }
 
   handleUpdatedLevel(e, { details }) {

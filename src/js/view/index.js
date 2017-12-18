@@ -1,10 +1,10 @@
 import * as _ from 'underscore';
 
-import { replaceWith, addClass, removeClass, replaceClass, toggleClass, createElement } from 'utils/dom';
+import { replaceWith, addClass, removeClass, replaceClass, toggleClass, createElement, removeChild } from 'utils/dom';
 import { toHumanReadable } from 'utils/strings';
 // import VolumeSlider from 'utils/volumeSlider';
 import VolumeSlider from 'view/volumeSlider';
-import { STATE_BUFFERING, STATE_PLAYING, STATE_PAUSED, MEDIA_TIME, FULLSCREEN, QUALITIES_RETURNED, CURRENT_LEVEL_CHANGE } from 'app/events';
+import { STATE_BUFFERING, STATE_PLAYING, STATE_PAUSED, MEDIA_TIME, FULLSCREEN, QUALITIES_LOADED, CURRENT_LEVEL_CHANGE } from 'app/events';
 import getMediaElement from 'api/getMediaElement';
 import playerTemplate from 'templates/player.html';
 
@@ -50,21 +50,20 @@ class View {
 
     this.core.on(MEDIA_TIME, this.handleTimeUpdate.bind(this));
     this.core.on(FULLSCREEN, this.handleFullscreenChange.bind(this));
-    this.core.on(QUALITIES_RETURNED, this.handleQualitiesReturned.bind(this)); // Added by Jerry
+    this.core.on(QUALITIES_LOADED, this.handleQualitiesLoaded.bind(this));
     this.core.on(CURRENT_LEVEL_CHANGE, this.handleCurrentLevelChange.bind(this));
-    // this.core.on(MEDIA_LEVEL_CHANGED, this.handleQuelitiesLevelChanged.bind(this));
   }
 
   attachListeners() {
     const playbackEle = this.containerEle.getElementsByClassName('ecp-button-playback')[0];
     const fullscreenEle = this.containerEle.getElementsByClassName('ecp-button-fullscreen')[0];
-    const settingEle = this.containerEle.getElementsByClassName('ecp-button-settings')[0];
-    const videoTracks = this.containerEle.getElementsByClassName('ecp-video-tracks')[0];
+    const settingsEle = this.containerEle.getElementsByClassName('ecp-button-settings')[0];
+    const videoTracksEle = this.containerEle.getElementsByClassName('ecp-video-tracks')[0];
 
     playbackEle.addEventListener('click', this.handleClickPlayback.bind(this));
     fullscreenEle.addEventListener('click', this.handleClickFullscreen.bind(this));
-    settingEle.addEventListener('click', this.handleClickSetting.bind(this));
-    videoTracks.addEventListener('click', this.handleClickVideoTracks.bind(this));
+    settingsEle.addEventListener('click', this.handleClickSetting.bind(this));
+    videoTracksEle.addEventListener('click', this.handleClickVideoTracks.bind(this));
   }
 
   checkAutoPlay() {
@@ -98,40 +97,32 @@ class View {
     }
   }
 
-  // added by [J]
-  handleQualitiesReturned() {
+  handleQualitiesLoaded() {
     const qualityLevels = this.core.getQualityLevels();
-    const videoTracks = this.containerEle.getElementsByClassName('ecp-video-tracks')[0];
-    // videoTracks.innerHTML = '';
-    while (videoTracks.firstChild) {
-      videoTracks.removeChild(videoTracks.firstChild);
-    }
-    const autoQuality = createElement('<li class="ecp-resolution">Auto</li>', -1);
-    const qualityLabels = _.map(
-      qualityLevels,
-      (level, index) => createElement(`<li class="${level.height} ecp-resolution">${level.label}</li>`, index),
-    );
-    const sortedQualityLabels = _.sortBy(
-      qualityLabels,
-      label => -1 * parseInt(label.classList[0], 10),
-    );
-    sortedQualityLabels.unshift(autoQuality);
-    _.each(sortedQualityLabels, (label) => {
-      videoTracks.appendChild(label);
+    const videoTracksEle = this.containerEle.getElementsByClassName('ecp-video-tracks')[0];
+
+    removeChild(videoTracksEle);
+
+    _.each(qualityLevels, (level, index) => {
+      const html = createElement(`<li class="ecp-resolution">${level.label}</li>`);
+
+      if (index === 0) {
+        addClass(html, 'is-selected');
+      }
+
+      videoTracksEle.appendChild(html);
     });
   }
 
-  handleCurrentLevelChange() {
-    const currentQualityIndex = this.core.getCurrentQualityIndex();
-    const videoResolutions = this.containerEle.getElementsByClassName('ecp-resolution');
-    // eslint-disable-next-line max-len
-    const currentResolution = _.find(videoResolutions, resolution => parseInt(resolution.id, 10) === currentQualityIndex);
-    _.forEach(videoResolutions, resolution => removeClass(resolution, 'is-selected'));
-    addClass(currentResolution, 'is-selected');
+  handleCurrentLevelChange({ level }) {
+    const resolutionEle = this.containerEle.getElementsByClassName('ecp-resolution');
 
-    return this;
+    _.forEach(resolutionEle, resolution => removeClass(resolution, 'is-selected'));
+
+    if (resolutionEle[level]) {
+      addClass(resolutionEle[level], 'is-selected');
+    }
   }
-
 
   handleClickPlayback() {
     this.core.togglePlayback();
@@ -142,6 +133,7 @@ class View {
 
     this.core.setVolume(volume);
   }
+
   handleClickFullscreen() {
     const newState = !this.core.getFullscreen();
     // const fullscreenEle = this.containerEle.getElementsByClassName('ecp-button-fullscreen')[0];
@@ -157,11 +149,16 @@ class View {
 
   handleClickVideoTracks(e) {
     e.preventDefault();
+
     if (e.target.matches('.ecp-resolution')) {
-      const qualityLevel = parseInt(e.target.id, 10);
-      const settingsIcon = this.containerEle.getElementsByClassName('ecp-button-settings')[0];
-      this.core.setCurrentQuality(qualityLevel);
-      toggleClass(settingsIcon, 'is-shown');
+      const videoTracksEle = e.target.parentElement;
+      const settingsEle = this.containerEle.getElementsByClassName('ecp-button-settings')[0];
+
+      const index = [...videoTracksEle.children].indexOf(e.target);
+
+      this.core.setCurrentQuality(index);
+
+      toggleClass(settingsEle, 'is-shown');
     }
   }
 }
