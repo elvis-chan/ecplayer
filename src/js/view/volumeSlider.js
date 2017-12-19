@@ -56,18 +56,15 @@ class VolumeSlider {
     if (this.sliderBarHidden) {
       this.sliderBarHidden = false;
       this.sliderBar.style.width = `${this.sliderBarW}px`;
-      console.log('enter slider bar');
       this.slider.addEventListener('mouseleave', this.mouseLeaveSlider);
     }
   }
 
   static mouseLeaveSlider() {
-    console.log('mouseleave slider');
     this.constructor.hideSliderBar.bind(this)();
   }
 
   static mouseDownSliderBar(e) {
-    console.log('mouse down slider');
     e.preventDefault();
     this.setSliderPositionOnEvent(e);
     this.controlBar.addEventListener('mousemove', this.mouseMoveControlBar);
@@ -93,20 +90,10 @@ class VolumeSlider {
   }
 
   static hideSliderBar() {
-    console.log('hide slider bar');
     this.sliderBar.style.width = '0';
     this.sliderBarHidden = true;
   }
   static mouseLeaveControlBar() {
-    /*
-    console.log('simulate mouse up');
-    const event = new MouseEvent('mouseup', {
-      bubbles: true,
-      cancelable: true,
-    });
-    this.controlBar.dispatchEvent(event);
-    */
-    console.log('mouseleave control bar');
     this.controlBar.removeEventListener('mousemove', this.mouseMoveControlBar);
     this.controlBar.removeEventListener('mouseup', this.mouseUpControlBar);
     this.controlBar.removeEventListener('mouseleave', this.mouseLeaveControlBar);
