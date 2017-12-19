@@ -153,27 +153,31 @@ $control-bar-height: 36px;
 
 .ecp-video-tracks {
   display: none;
-  list-style: none;
-  padding: 5px 0;
-  margin: 0;
   position: absolute;
-  bottom: $control-bar-height;
-  width: 100px;
   right: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  bottom: $control-bar-height;
+  margin: 0;
+  padding: 0;
+  width: 80px;
+  background-color: rgba(0, 0, 0, .8);
+  list-style: none;
   text-align: center;
+  font-size: 14px;
+  font-family: Arial, Helvetica, sans-serif;
+
   .ecp-resolution {
-    color: #fff;
     padding: 4px 0;
+    color: #fff;
+
     &:hover {
       cursor: pointer;
     }
+
     &.is-selected {
-      background-color: rgba(33, 33, 33, .8);
+      background-color: #3d3d3d;
     }
   }
 }
-
 
 .ecp-time-elapsed,
 .ecp-time-duration {
