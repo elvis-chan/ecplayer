@@ -37,7 +37,6 @@ class View {
 
   init() {
     this.attachListeners();
-
     const sliderEle = this.containerEle.getElementsByClassName('ecp-volume-slider')[0];
     const muteEle = this.containerEle.getElementsByClassName('ecp-button-mute')[0];
     this.volumeSlider = new VolumeSlider(this, sliderEle, muteEle);
