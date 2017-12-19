@@ -76,6 +76,8 @@ $control-bar-height: 36px;
   width: 100%;
   height: 36px;
   background-color: rgba(33, 33, 33, .8);
+  opacity: 0;
+  transition: opacity .25s;
 
   button {
     border: none;
@@ -94,6 +96,10 @@ $control-bar-height: 36px;
     &:hover {
       color: #fff;
     }
+  }
+
+  &.is-shown {
+    opacity: 1;
   }
 }
 .ecp-left-controls {
