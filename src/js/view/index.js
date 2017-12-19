@@ -41,6 +41,9 @@ class View {
     const muteEle = this.containerEle.getElementsByClassName('ecp-button-mute')[0];
     this.volumeSlider = new VolumeSlider(this, sliderEle, muteEle);
     this.volumeSlider.setup();
+    const controlBar = this.containerEle.getElementsByClassName('ecp-controlbar')[0];
+    this.controlBar = controlBar;
+    this.mouseMoveId = null;
     // this.checkAutoPlay();
 
     _.each([STATE_BUFFERING, STATE_PLAYING, STATE_PAUSED], (event) => {
@@ -59,6 +62,8 @@ class View {
     const settingsEle = this.containerEle.getElementsByClassName('ecp-button-settings')[0];
     const videoTracksEle = this.containerEle.getElementsByClassName('ecp-video-tracks')[0];
 
+    this.containerEle.addEventListener('mousemove', this.handleMouseMoveVideo.bind(this));
+    this.containerEle.addEventListener('mouseleave', this.handleMouseLeave.bind(this));
     playbackEle.addEventListener('click', this.handleClickPlayback.bind(this));
     fullscreenEle.addEventListener('click', this.handleClickFullscreen.bind(this));
     settingsEle.addEventListener('click', this.handleClickSetting.bind(this));
@@ -74,6 +79,22 @@ class View {
       addClass(playBackEle.children[0], 'ecp-icon-play');
       removeClass(playBackEle.children[0], 'ecp-icon-pause');
     }
+  }
+
+  handleMouseMoveVideo() {
+    addClass(this.controlBar, 'is-shown');
+    if (this.mouseMoveId) {
+      clearTimeout(this.mouseMoveId);
+    }
+    this.mouseMoveId = setTimeout(this.hideControlBar.bind(this), 3000);
+  }
+
+  hideControlBar() {
+    removeClass(this.controlBar, 'is-shown');
+  }
+
+  handleMouseLeave() {
+    removeClass(this.controlBar, 'is-shown');
   }
 
   handleStateChange({ newState }) {
@@ -99,7 +120,7 @@ class View {
   handleQualitiesLoaded() {
     const qualityLevels = this.core.getQualityLevels();
     const videoTracksEle = this.containerEle.getElementsByClassName('ecp-video-tracks')[0];
-
+    console.log(removeChild);
     removeChild(videoTracksEle);
 
     _.each(qualityLevels, (level, index) => {
