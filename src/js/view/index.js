@@ -120,7 +120,6 @@ class View {
   handleQualitiesLoaded() {
     const qualityLevels = this.core.getQualityLevels();
     const videoTracksEle = this.containerEle.getElementsByClassName('ecp-video-tracks')[0];
-    console.log(removeChild);
     removeChild(videoTracksEle);
 
     _.each(qualityLevels, (level, index) => {
